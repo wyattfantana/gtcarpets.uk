@@ -1,11 +1,13 @@
 source 'https://rubygems.org'
 
+ruby File.read('.ruby-version').strip
+
 git_source(:github) do |repo_name|
   repo_name = "#{repo_name}/#{repo_name}" unless repo_name.include?("/")
   "https://github.com/#{repo_name}.git"
 end
 
-#gem 'nokogiri', '~> 1.12.0'
+gem 'nokogiri', '~> 1.12.0'
 
 gem 'sendgrid-ruby'
 
