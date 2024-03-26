@@ -1,0 +1,43 @@
+<!-- app/views/pages/home.html.erb -->
+<section id="about">
+  <div class="container">
+      <h2>About Us</h2>
+      <p>Welcome to GT Carpets. We are your premier choice for high-quality carpet fitting services. Our team of experts is dedicated to providing top-notch service to our customers.</p>
+  </div>
+</section>
+
+<section id="services">
+  <div class="container">
+      <h2>Our Services</h2>
+      <p>We offer a wide range of services including:</p>
+      <ul>
+          <li>Carpet Installation</li>
+          <li>Carpet Repair</li>
+          <li>Carpet Cleaning</li>
+      </ul>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="container">
+      <h2>Contact Us</h2>
+      <p>Ready to get started? Contact us today!</p>
+      <%= form_with model: @contact, url: contacts_path, id: "contact-form" do |form| %>
+          <div>
+              <%= form.label :name %>
+              <%= form.text_field :name, required: true %>
+          </div>
+          <div>
+              <%= form.label :email %>
+              <%= form.email_field :email, required: true %>
+          </div>
+          <div>
+              <%= form.label :message %>
+              <%= form.text_area :message, rows: 4, required: true %>
+          </div>
+          <div>
+              <%= form.submit "Send" %>
+          </div>
+      <% end %>
+  </div>
+</section>

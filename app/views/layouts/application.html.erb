@@ -1,0 +1,34 @@
+<!-- app/views/layouts/application.html.erb -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GT Carpets</title>
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= csrf_meta_tags %>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>GT Carpets</h1>
+            <nav>
+                <ul>
+                    <li><%= link_to "About", "#about" %></li>
+                    <li><%= link_to "Services", "#services" %></li>
+                    <li><%= link_to "Contact", "#contact" %></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <%= yield %>
+
+    <footer>
+        <div class="container">
+            <p>&copy; <%= Time.now.year %> GT Carpets. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
+
