@@ -5,8 +5,6 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 
-gem 'tzinfo-data'
-
 gem 'nokogiri', '~> 1.12.0'
 
 gem 'sendgrid-ruby'
