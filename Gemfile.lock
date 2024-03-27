@@ -85,7 +85,7 @@ GEM
       net-smtp
     method_source (1.0.0)
     mini_mime (1.1.2)
-    mini_portile2 (2.8.5)
+    mini_portile2 (2.6.1)
     minitest (5.15.0)
     net-imap (0.2.2)
       digest
@@ -101,6 +101,9 @@ GEM
       net-protocol
       timeout
     nio4r (2.7.1)
+    nokogiri (1.12.5)
+      mini_portile2 (~> 2.6.1)
+      racc (~> 1.4)
     nokogiri (1.12.5-x64-mingw32)
       racc (~> 1.4)
     nokogiri (1.12.5-x86_64-linux)
@@ -165,8 +168,7 @@ GEM
       actionpack (>= 4.0)
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
-    sqlite3 (1.6.9)
-      mini_portile2 (~> 2.8.0)
+    sqlite3 (1.4.4)
     strscan (3.1.0)
     thor (1.2.2)
     thread_safe (0.3.6)
@@ -193,6 +195,7 @@ GEM
       nokogiri (~> 1.8)
 
 PLATFORMS
+  ruby
   x64-mingw32
   x86_64-linux
 
