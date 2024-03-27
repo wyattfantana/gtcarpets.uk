@@ -3,6 +3,6 @@ class ContactMailer < ApplicationMailer
     @name = name
     @email = email
     @message = message
-    mail(from: 'no-reply@gtcarpets.uk', reply_to: email, to: 'gtcarpetsuk.gmail.com', subject: 'New Contact Request')
+    mail(from: 'no-reply@gtcarpets.uk', reply_to: email, to: 'gtcarpetsuk@gmail.com', subject: 'New Contact Request')
   end
 end

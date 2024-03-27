@@ -1,6 +1,18 @@
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
+      # SMTP settings for email delivery using SendGrid
+      config.action_mailer.delivery_method = :smtp
+      config.action_mailer.smtp_settings = {
+        address: 'smtp.sendgrid.net',
+        port: 587,
+        domain: 'gtcarpets.uk',
+        authentication: :plain,
+        enable_starttls_auto: true,
+        user_name: 'apikey', # This is the literal word "apikey", NOT the ID of your API key
+        password: ENV['SENDGRID_API_KEY'] # Your SendGrid API Key
+      }
+
   # Code is not reloaded between requests.
   config.cache_classes = true
 
