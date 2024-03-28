@@ -3,16 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GT Carpets</title>
+    <title>GT Carpets - Your first choice for quality carpet solutions.</title>
+    <link rel="icon" type="image/png" href="<%= asset_path('logo.png') %>">
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= csrf_meta_tags %>
 
 </head>
 <body>
     <header>
-        <div class="container">
-            <h1>GT Carpets</h1>
-            <nav>
+        <div class="container header-container">
+            <!-- Logo as a link to the home page -->
+            <a href="/" class="header-logo">
+                <img src="/assets/logo.png" alt="GT Carpets Logo">
+            </a>
+            <!-- Navigation -->
+            <nav class="header-nav">
                 <ul>
                     <li><%= link_to "About", "#about" %></li>
                     <li><%= link_to "Services", "#services" %></li>
@@ -21,6 +26,7 @@
             </nav>
         </div>
     </header>
+    
 
     <section class="hero" style="background: url('<%= asset_path("carpet1.jpg") %>') no-repeat center center; background-size: cover;">
         <div class="container">
@@ -33,9 +39,26 @@
     <%= yield %>
 
     <footer>
-        <div class="container">
-            <p>&copy; <%= Time.now.year %> GT Carpets. All rights reserved.</p>
+        <div class="footer-container">
+            <!-- Business Name -->
+            <p class="business-name">GT Carpets</p>
+            <!-- Contact Name -->
+            <p class="contact-name">Gareth Taylor</p>
+            <!-- Phone -->
+            <p>Phone: 07494 789381</p>
+            <!-- Email -->
+            <p class="email">Email: gtcarpetsuk@gmail.com</p>
+            
+            <!-- Action Buttons -->
+            <div class="footer-actions">
+                <a href="tel:+447494789381" class="action-btn call">Call Us</a>
+                <a href="https://api.whatsapp.com/send?phone=+447494789381" target="_blank" class="action-btn whatsapp">WhatsApp</a>
+                <a href="mailto:gtcarpetsuk@gmail.com" class="action-btn email">Email Us</a>
+            </div>
+            
+            <!-- Copyright Notice -->
+            <p class="copyright">© 2024 GT Carpets. All rights reserved.</p>
         </div>
-    </footer>
-</body>
+    </footer>    
+  </body>
 </html>
