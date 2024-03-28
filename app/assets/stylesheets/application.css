@@ -1,34 +1,32 @@
-/*
- * This is a manifest file that'll be compiled into application.css, which will include all the files
- * listed below.
- *
- * Any CSS and SCSS file within this directory, lib/assets/stylesheets, or any plugin's
- * vendor/assets/stylesheets directory can be referenced here using a relative path.
- *
- * You're free to add application-wide styles to this file and they'll appear at the bottom of the
- * compiled file so the styles you add here take precedence over styles defined in any other CSS/SCSS
- * files in this directory. Styles in this file should be added after the last require_* statement.
- * It is generally better to create a new file per style scope.
- *
- *= require_tree .
- *= require_self
- */
-
- body {
+/* General Styles */
+body {
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
 }
 
 .container {
-  width: 80%;
-  margin: 0 auto;
+  max-width: 1200px;
+  margin: auto;
+  padding: 20px;
 }
 
+h2 {
+  color: #e67e22; /* Updated to orange */
+  margin-bottom: 20px;
+  border-bottom: 2px solid #e67e22; /* Adds a subtle line under the headings */
+  padding-bottom: 10px;
+}
+
+p {
+  line-height: 1.6; /* Improves readability */
+}
+
+/* Header Styles */
 header {
-  background-color: #333;
+  background: #333;
   color: #fff;
-  padding: 20px 0;
+  padding: 10px 0;
 }
 
 header h1 {
@@ -42,53 +40,123 @@ nav ul {
 
 nav ul li {
   display: inline;
-  margin-right: 20px;
+  margin-right: 10px;
 }
 
 nav ul li a {
-  text-decoration: none;
   color: #fff;
+  text-decoration: none;
 }
 
-section {
-  padding: 50px 0;
+/* Hero Section Styles */
+.hero {
+  color: #fff;
+  height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background: url('../images/carpet1.jpg') no-repeat center center; /* Adjust the path as needed */
+  background-size: cover;
 }
 
-section h2 {
-  margin-bottom: 20px;
+.hero h2, .hero p {
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.7); /* Adding text shadow for readability */
 }
 
-form label {
+.hero h2 {
+  margin: 0 0 20px 0;
+  font-size: 2.5em;
+}
+
+.hero p {
+  font-size: 1.2em;
+}
+
+.btn {
+  background: #e67e22; /* Updated to orange */
+  color: #fff;
+  padding: 10px 20px;
+  text-decoration: none;
+  display: inline-block;
+  margin-top: 20px;
+  border-radius: 5px; /* Rounded corners for buttons */
+}
+
+.btn:hover {
+  background: #d35400; /* Darker shade of orange on hover */
+}
+
+/* Footer Styles */
+footer {
+  background: #333;
+  color: #fff;
+  text-align: center;
+  padding: 20px 0;
+  margin-top: 20px;
+}
+
+/* About Section Styles */
+.about-content p {
+  margin-bottom: 15px; /* Adds space between paragraphs for better readability */
+}
+
+/* Services Section Styles */
+.services-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Responsive grid layout */
+  gap: 20px; /* Spacing between grid items */
+}
+
+.service h3 {
+  background-color: #e67e22; /* Updated to orange */
+  color: #fff;
+  padding: 10px;
+  border-radius: 5px; /* Rounded corners for the titles */
+}
+
+.service p {
+  background: #f9f9f9; /* A light background for each service description */
+  padding: 15px;
+  border-radius: 5px; /* Consistent rounded corners */
+  border: 1px solid #ddd; /* Subtle border */
+}
+
+/* Contact Section Styles */
+#contact-form {
+  background: #f9f9f9;
+  padding: 20px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+}
+
+#contact-form div {
+  margin-bottom: 15px;
+}
+
+#contact-form label {
   display: block;
   margin-bottom: 5px;
 }
 
-form input[type="text"],
-form input[type="email"],
-form textarea {
+#contact-form input[type="text"],
+#contact-form input[type="email"],
+#contact-form textarea {
   width: 100%;
   padding: 10px;
-  margin-bottom: 10px;
-  border: 1px solid #ccc;
   border-radius: 5px;
+  border: 1px solid #ccc;
 }
 
-form button {
+#contact-form input[type="submit"] {
+  background: #e67e22; /* Updated to orange */
+  color: white;
   padding: 10px 20px;
-  background-color: #333;
-  color: #fff;
   border: none;
   border-radius: 5px;
   cursor: pointer;
 }
 
-form button:hover {
-  background-color: #555;
-}
-
-footer {
-  background-color: #333;
-  color: #fff;
-  text-align: center;
-  padding: 20px 0;
+#contact-form input[type="submit"]:hover {
+  background: #d35400; /* Darker shade of orange on hover */
 }

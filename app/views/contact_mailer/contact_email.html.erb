@@ -1,14 +1,30 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
-  <title>New Contact Form Submission</title>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+    <title>New Contact Form Submission</title>
 </head>
-<body>
-  <h2>New Contact Form Submission</h2>
-  <p><strong>Name:</strong> <%= @name %></p>
-  <p><strong>Email:</strong> <%= @email %></p>
-  <p><strong>Message:</strong> <%= @message %></p>
+<body style="font-family: Arial, sans-serif; color: #333;">
+    <table width="100%" border="0" cellspacing="0" cellpadding="0" style="max-width: 600px; margin: auto; border-collapse: collapse;">
+        <tr>
+            <td style="background-color: #f8f8f8; padding: 20px; text-align: center; font-size: 22px; color: #ffffff; background-color: #007bff;">
+                New Contact Form Submission
+            </td>
+        </tr>
+        <tr>
+            <td style="padding: 20px;">
+                <p><strong>Name:</strong> <%= @name %></p>
+                <p><strong>Email:</strong> <%= @email %></p>
+                <p><strong>Message:</strong> <%= @message %></p>
+            </td>
+        </tr>
+        <tr>
+            <td style="background-color: #007bff; color: #ffffff; padding: 10px; text-align: center;">
+                Thank you for contacting us!
+            </td>
+        </tr>
+    </table>
 </body>
 </html>
+
 
