@@ -275,3 +275,62 @@ footer {
 #contact-form input[type="submit"]:hover {
   background: #d35400; /* Darker shade of orange on hover */
 }
+
+/* Price Calculator Section Styles */
+#calculator-form {
+  background: #f9f9f9; /* Same as the contact form */
+  padding: 20px;
+  border-radius: 5px;
+  border: 1px solid #ddd; /* Subtle border */
+  margin-bottom: 40px; /* Space between sections */
+}
+
+#calculator-form div {
+  margin-bottom: 15px;
+}
+
+#calculator-form label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+#calculator-form input[type="text"],
+#calculator-form input[type="number"] {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+#calculator-form input[type="submit"] {
+  background: #e67e22; /* Matches the orange button */
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#calculator-form input[type="submit"]:hover {
+  background: #d35400; /* Darker orange on hover */
+}
+
+#calculator-result {
+  font-size: 1.2em;
+  text-align: center;
+  margin-top: 20px;
+  color: #333; /* Neutral text color */
+}
+
+#calculator-result p {
+  margin: 10px 0;
+  font-weight: bold; /* Bold the important part */
+}
+
+#calculator-result p:nth-child(2) {
+  font-weight: normal; /* Second paragraph with a normal font */
+  font-size: 1em; /* Keep it a little smaller than the cost */
+  margin-top: 10px;
+  color: #555; /* Slightly lighter color for the message */
+}
+
