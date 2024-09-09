@@ -1,131 +1,145 @@
+<!-- About Us Section -->
 <section id="about">
     <div class="container">
-        <h2>About Us</h2>
-        <div class="about-content">
-            <p>At GT Carpets, we pride ourselves on our rich history of delivering unparalleled carpet services. Founded by <strong>Gareth Taylor</strong>, a seasoned expert with over two decades of experience in the carpet industry, our company has established itself as a beacon of quality and reliability in Buxton, UK.</p>
-            <p>Gareth's journey began as a passionate apprentice, quickly evolving into a master of the trade. His expertise, coupled with a keen eye for detail and dedication to customer satisfaction, has driven GT Carpets to become the go-to choice for clients seeking top-notch carpet solutions.</p>
-            <p>Our mission at GT Carpets is simple: to provide exceptional service and high-quality products that meet and exceed our clients' expectations. Committed to bringing comfort, style, and warmth to homes and businesses, one carpet at a time.</p>
-            <p>Thank you for considering GT Carpets for your flooring needs. We look forward to transforming your space with our expert installation services.</p>
+      <h2>About Us</h2>
+      <div class="about-content">
+        <p>At GT Carpets, we pride ourselves on our rich history of delivering unparalleled carpet services. Founded by <strong>Gareth Taylor</strong>, a seasoned expert with over two decades of experience in the carpet industry, our company has established itself as a beacon of quality and reliability in Buxton, UK.</p>
+        <p>Gareth's journey began as a passionate apprentice, quickly evolving into a master of the trade. His expertise, coupled with a keen eye for detail and dedication to customer satisfaction, has driven GT Carpets to become the go-to choice for clients seeking top-notch carpet and flooring solutions.</p>
+        <p>Our mission is simple: to provide exceptional service and high-quality products that meet and exceed our clients' expectations. We're committed to bringing comfort, style, and warmth to homes and businesses, one floor at a time.</p>
+        <p>Thank you for considering GT Carpets for your flooring needs. We look forward to transforming your space with our expert installation services.</p>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Services Section -->
+  <section id="services">
+    <div class="container">
+      <h2>Our Expertise</h2>
+      <div class="services-list">
+        <div class="service">
+          <h3>Personalized Consultation</h3>
+          <p>We provide personalized consultations to understand your specific needs, help you navigate our extensive range of options, and ensure the final installation exceeds your expectations.</p>
         </div>
-    </div>
-</section>
-
-<section id="services">
-    <div class="container">
-        <h2>Our Expertise</h2>
-        <p>At GT Carpets, we're dedicated to enhancing your home with top-quality floor installations. With over 20 years of experience, Gareth Taylor and his team specialize in:</p>
-        <div class="services-list">
-            <div class="service">
-                <h3>Personalized Consultation</h3>
-                <p>Your satisfaction is our priority. We provide personalized consultations to understand your specific needs, help you navigate our extensive range of options, and ensure the final installation exceeds your expectations.</p>
-            </div>
-            <div class="service">
-                <h3>Carpet Installation</h3>
-                <p>Discover the warmth and comfort that a new carpet can bring to your home. We offer a comprehensive selection of styles and materials to suit any room, ensuring a perfect match for your décor and lifestyle needs.</p>
-            </div>
-            <div class="service">
-                <h3>Vinyl Flooring Installation</h3>
-                <p>For durability and style, our vinyl flooring options are unmatched. Ideal for kitchens, bathrooms, and high-traffic areas, vinyl offers a versatile solution that combines easy maintenance with aesthetic appeal.</p>
-            </div>
+        <div class="service">
+          <h3>Carpet Installation</h3>
+          <p>Discover the warmth and comfort that a new carpet can bring to your home. We offer a comprehensive selection of styles and materials to suit any room, ensuring a perfect match for your décor and lifestyle needs.</p>
         </div>
-        <p>Contact us today to discover how we can transform your space with our expert carpet and vinyl fitting services.</p>
+        <div class="service">
+          <h3>Vinyl Flooring Installation</h3>
+          <p>For durability and style, our vinyl flooring options are unmatched. Ideal for kitchens, bathrooms, and high-traffic areas, vinyl offers a versatile solution that combines easy maintenance with aesthetic appeal.</p>
+        </div>
+      </div>
+      <p>Contact us today to discover how we can transform your space with our expert carpet and vinyl fitting services.</p>
     </div>
-</section>
-
-<!-- Add Carpet Price Calculator Section -->
-<section id="calculator">
+  </section>
+  
+  <!-- Pricing Calculator Section -->
+  <section id="calculator">
     <div class="container">
-        <h2>Carpet Fitting Price Calculator</h2>
-        <p>Estimate the cost of your carpet installation using the form below:</p>
-
-        <%= form_with url: '/carpet_price_calculator', method: :post, local: true, id: 'calculator-form' do %>
-            <div>
-                <%= label_tag :length, "Room Length (in meters):" %>
-                <%= number_field_tag :length, nil, placeholder: "Enter length", class: "form-control", required: true %>
-            </div>
-
-            <div>
-                <%= label_tag :width, "Room Width (in meters):" %>
-                <%= number_field_tag :width, nil, placeholder: "Enter width", class: "form-control", required: true %>
-            </div>
-
-            <div>
-                <%= label_tag :cost_per_meter, "Carpet Cost per square meter (£):" %>
-                <%= number_field_tag :cost_per_meter, nil, placeholder: "Enter cost per sq meter", class: "form-control", required: true %>
-            </div>
-
-            <!-- Dropdown for Underlay -->
-            <div>
-                <%= label_tag :underlay, "Do you need underlay?" %>
-                <%= select_tag :underlay, options_for_select([['Yes', 'yes'], ['No', 'no']]), prompt: 'Select option', required: true %>
-            </div>
-
-            <!-- Dropdown for Gripper Rods -->
-            <div>
-                <%= label_tag :gripper_rods, "Number of Gripper Rod Boxes:" %>
-                <%= number_field_tag :gripper_rods, 1, min: 0, step: 1, required: true %>
-            </div>
-
-            <div>
-                <%= submit_tag "Calculate", class: "btn btn-primary" %>
-            </div>
-        <% end %>
-
-        <% if @total_cost %>
-            <% 
-                # Internal values
-                fitting_cost = 15 # Fixed fitting cost per sqm
-                underlay_cost = params[:underlay] == 'yes' ? 5 : 0 # Underlay cost fixed at £5 per sqm
-                gripper_rod_price = 10 # Fixed price per box of gripper rods
-                gripper_boxes = params[:gripper_rods].to_i # Number of gripper rods
-                
-                # Calculate the area
-                area = params[:length].to_f * params[:width].to_f
-                
-                # Total carpet cost
-                carpet_cost = area * params[:cost_per_meter].to_f
-                
-                # Total fitting cost
-                total_fitting_cost = area * fitting_cost
-                
-                # Total gripper rods cost
-                total_gripper_rod_cost = gripper_boxes * gripper_rod_price
-                
-                # Total underlay cost
-                total_underlay_cost = area * underlay_cost
-                
-                # Final total cost
-                final_total_cost = carpet_cost + total_fitting_cost + total_gripper_rod_cost + total_underlay_cost
-            %>
-
-            <div id="calculator-result">
-                <p><strong>For <%= area.round(2) %> sqm of carpet fitted, @£<%= fitting_cost %> per meter fitting cost, including underlay @£<%= underlay_cost %> per sqm, plus <%= gripper_boxes %> box(es) of gripper rods, the total cost is £<%= final_total_cost.round(2) %>.</strong></p>
-                <p>If you would like to book us to fit your carpets, please use the contact form below. We look forward to working with you!</p>
-            </div>
-        <% end %>
+      <h2>Flooring Price Calculator</h2>
+      <p>Estimate the cost of your flooring installation using the form below:</p>
+  
+      <%= form_with url: '/carpet_price_calculator', method: :post, local: true, id: 'calculator-form' do %>
+        <!-- Dropdown for Fitting Type (Carpet/Vinyl) -->
+        <div>
+          <%= label_tag :fitting_type, "Fitting Type:" %>
+          <%= select_tag :fitting_type, options_for_select([['Carpet', 'carpet'], ['Vinyl', 'vinyl']]), prompt: 'Select Carpet or Vinyl', class: "form-control", required: true, onchange: "updateFittingOptions()" %>
+        </div>
+  
+        <!-- Room Length and Width -->
+        <div>
+          <%= label_tag :length, "Room Length (in meters):" %>
+          <%= number_field_tag :length, nil, placeholder: "Enter length", class: "form-control", required: true %>
+        </div>
+  
+        <div>
+          <%= label_tag :width, "Room Width (in meters):" %>
+          <%= number_field_tag :width, nil, placeholder: "Enter width", class: "form-control", required: true %>
+        </div>
+  
+        <!-- Conditional Options for Carpet or Vinyl -->
+        <div id="gripper_rods_option" style="display: none;">
+          <%= label_tag :gripper_rods, "Do you need Gripper Rods?" %>
+          <%= select_tag :gripper_rods, options_for_select([['Yes', 'yes'], ['No', 'no']]), prompt: 'Select Yes or No', class: "form-control" %>
+        </div>
+  
+        <div id="underlay_option" style="display: none;">
+          <%= label_tag :underlay, "Do you need Underlay?" %>
+          <%= select_tag :underlay, options_for_select([['Yes', 'yes'], ['No', 'no']]), prompt: 'Select Yes or No', class: "form-control" %>
+        </div>
+  
+        <div id="plyboarding_option" style="display: none;">
+          <%= label_tag :plyboarding, "Do you need Plyboarding?" %>
+          <%= select_tag :plyboarding, options_for_select([['Yes', 'yes'], ['No', 'no']]), prompt: 'Select Yes or No', class: "form-control" %>
+        </div>
+  
+        <!-- Number Field for Door Trims -->
+        <div>
+          <%= label_tag :door_trims, "Number of Door Trims:" %>
+          <%= number_field_tag :door_trims, 0, min: 0, step: 1, class: "form-control", required: true %>
+        </div>
+  
+        <div>
+          <%= submit_tag "Calculate", class: "btn btn-primary" %>
+        </div>
+      <% end %>
+  
+      <% if @total_cost %>
+        <div id="calculator-result">
+          <p><strong>For <%= @area.round(2) %> sqm of <%= params[:fitting_type] %> fitted, @£<%= @fitting_cost %> per sqm fitting cost, including underlay (if selected), plyboarding (if selected for vinyl), and <%= params[:door_trims] %> door trim(s), the total cost is £<%= @formatted_cost %>.</strong></p>
+          <p>If you would like to book us to fit your flooring, please use the contact form below. We look forward to working with you!</p>
+        </div>
+      <% end %>
     </div>
-</section>
-
-<section id="contact">
+  </section>
+  
+  <script>
+    function updateFittingOptions() {
+      var fittingType = document.getElementById('fitting_type').value;
+      var gripperRodOption = document.getElementById('gripper_rods_option');
+      var underlayOption = document.getElementById('underlay_option');
+      var plyboardingOption = document.getElementById('plyboarding_option');
+  
+      if (fittingType === 'carpet') {
+        gripperRodOption.style.display = 'block';
+        underlayOption.style.display = 'block';
+        plyboardingOption.style.display = 'none';
+      } else if (fittingType === 'vinyl') {
+        gripperRodOption.style.display = 'none';
+        underlayOption.style.display = 'none';
+        plyboardingOption.style.display = 'block';
+      } else {
+        gripperRodOption.style.display = 'none';
+        underlayOption.style.display = 'none';
+        plyboardingOption.style.display = 'none';
+      }
+    }
+  
+    document.getElementById('fitting_type').addEventListener('change', updateFittingOptions);
+  </script>
+  
+  <!-- Contact Section -->
+  <section id="contact">
     <div class="container">
-        <h2>Contact Us</h2>
-        <p>Ready to get started? Contact us today!</p>
-        <%= form_with model: @contact, url: contacts_path, id: "contact-form" do |form| %>
-            <div>
-                <%= form.label :name %>
-                <%= form.text_field :name, required: true %>
-            </div>
-            <div>
-                <%= form.label :email %>
-                <%= form.email_field :email, required: true %>
-            </div>
-            <div>
-                <%= form.label :message %>
-                <%= form.text_area :message, rows: 4, required: true %>
-            </div>
-            <div>
-                <%= form.submit "Send", class: "btn btn-primary" %>
-            </div>
-        <% end %>
+      <h2>Contact Us</h2>
+      <p>Ready to get started? Contact us today!</p>
+      <%= form_with model: @contact, url: contacts_path, id: "contact-form" do |form| %>
+        <div>
+          <%= form.label :name %>
+          <%= form.text_field :name, required: true %>
+        </div>
+        <div>
+          <%= form.label :email %>
+          <%= form.email_field :email, required: true %>
+        </div>
+        <div>
+          <%= form.label :message %>
+          <%= form.text_area :message, rows: 4, required: true %>
+        </div>
+        <div>
+          <%= form.submit "Send", class: "btn btn-primary" %>
+        </div>
+      <% end %>
     </div>
-</section>
+  </section>
+  

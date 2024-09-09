@@ -1,97 +1,131 @@
-<!-- Hide the calculator form after calculating the total -->
-<% unless @total_cost %>
-  <%= form_with url: '/carpet_price_calculator', method: :post, local: true do %>
-    <div>
-      <label for="length">Room Length (in meters):</label>
-      <%= number_field_tag :length, nil, placeholder: "Enter length", required: true %>
+<section id="calculator">
+  <div class="container">
+    <!-- Hide the form if total cost is present -->
+    <div id="calculator-form-section" <%= @total_cost ? 'style="display:none;"' : '' %>>
+      <%= form_with url: '/carpet_price_calculator', method: :post, local: true, id: 'calculator-form' do %>
+
+        <!-- Dropdown for Fitting Type (Carpet/Vinyl) -->
+        <div>
+          <%= label_tag :fitting_type, "Fitting Type:" %>
+          <%= select_tag :fitting_type, options_for_select([['Carpet', 'carpet'], ['Vinyl', 'vinyl']]), prompt: 'Select Carpet or Vinyl', required: true, class: 'form-control', onchange: "toggleOptions()" %>
+        </div>
+
+        <!-- Room Length and Width -->
+        <div>
+          <%= label_tag :length, "Room Length (in meters):" %>
+          <%= number_field_tag :length, nil, placeholder: "Enter length", required: true, class: 'form-control' %>
+        </div>
+
+        <div>
+          <%= label_tag :width, "Room Width (in meters):" %>
+          <%= number_field_tag :width, nil, placeholder: "Enter width", required: true, class: 'form-control' %>
+        </div>
+
+        <!-- Dropdown for Gripper Rods (Carpet only) -->
+        <div id="gripper_rods_option" style="display: none;">
+          <%= label_tag :gripper_rods, "Do you need Gripper Rods?" %>
+          <%= select_tag :gripper_rods, options_for_select([['Yes', 'yes'], ['No', 'no']]), prompt: 'Select Yes or No', class: 'form-control' %>
+        </div>
+
+        <!-- Dropdown for Underlay (Carpet only) -->
+        <div id="underlay_option" style="display: none;">
+          <%= label_tag :underlay, "Do you need Underlay?" %>
+          <%= select_tag :underlay, options_for_select([['Yes', 'yes'], ['No', 'no']]), prompt: 'Select Yes or No', class: 'form-control' %>
+        </div>
+
+        <!-- Dropdown for Plyboarding (Vinyl only) -->
+        <div id="plyboarding_option" style="display: none;">
+          <%= label_tag :plyboarding, "Do you need Plyboarding?" %>
+          <%= select_tag :plyboarding, options_for_select([['Yes', 'yes'], ['No', 'no']]), prompt: 'Select Yes or No', class: 'form-control' %>
+        </div>
+
+        <!-- Number Field for Door Trims -->
+        <div>
+          <%= label_tag :door_trims, "Number of Door Trims:" %>
+          <%= number_field_tag :door_trims, 0, min: 0, step: 1, required: true, class: 'form-control' %>
+        </div>
+
+        <div>
+          <%= submit_tag "Calculate", class: "btn btn-primary" %>
+        </div>
+
+      <% end %>
     </div>
 
-    <div>
-      <label for="width">Room Width (in meters):</label>
-      <%= number_field_tag :width, nil, placeholder: "Enter width", required: true %>
-    </div>
+    <% if @total_cost %>
+      <div id="quote-box" style="border: 1px solid #ddd; padding: 20px; border-radius: 8px; background-color: #f9f9f9; margin-top: 20px;">
 
-    <div>
-      <label for="cost_per_meter">Carpet Cost per square meter (£):</label>
-      <%= number_field_tag :cost_per_meter, nil, placeholder: "Enter cost per sq meter", required: true %>
-    </div>
+        <!-- Two columns layout -->
+        <div style="display: flex; justify-content: space-between;">
+          <!-- Left Column: Services -->
+          <div style="width: 48%; text-align: left; font-size: 1.1em;">
+            <p style="font-weight: bold;"><%= @area.round(2) %> sqm of <%= params[:fitting_type] %> fitted</p>
 
-    <!-- Dropdown for Underlay -->
-    <div>
-      <label for="underlay">Do you need underlay?</label>
-      <%= select_tag :underlay, options_for_select([['Yes', 'yes'], ['No', 'no']]), prompt: 'Select option', required: true %>
-    </div>
+            <% if params[:underlay] == 'yes' && params[:fitting_type] == 'carpet' %>
+              <p style="font-weight: bold;"><%= @area.round(2) %> sqm of underlay supplied and fitted</p>
+            <% end %>
 
-    <!-- Dropdown for Gripper Rods -->
-    <div>
-      <label for="gripper_rods">Number of Gripper Rod Boxes:</label>
-      <%= number_field_tag :gripper_rods, 1, min: 0, step: 1, required: true %>
-    </div>
+            <% if params[:plyboarding] == 'yes' && params[:fitting_type] == 'vinyl' %>
+              <p style="font-weight: bold;"><%= @area.round(2) %> sqm of plyboard supplied and fitted</p>
+            <% end %>
 
-    <div>
-      <%= submit_tag "Calculate" %>
-    </div>
-  <% end %>
-<% end %>
+            <p>Spray adhesive supplied</p>
 
-<!-- Show the result and the contact form when the total cost is calculated -->
-<% if @total_cost %>
-  <% 
-    # Internal values
-    fitting_cost = 15 # Fixed fitting cost per sqm
-    underlay_cost = params[:underlay] == 'yes' ? 5 : 0 # Underlay fixed at £5 per sqm
-    gripper_rod_price = 10 # Fixed price per box of gripper rods
-    gripper_boxes = params[:gripper_rods].to_i # Number of gripper rods
-    
-    # Calculate the area
-    area = params[:length].to_f * params[:width].to_f
-    
-    # Total carpet cost
-    carpet_cost = area * params[:cost_per_meter].to_f
-    
-    # Total fitting cost
-    total_fitting_cost = area * fitting_cost
-    
-    # Total gripper rods cost
-    total_gripper_rod_cost = gripper_boxes * gripper_rod_price
-    
-    # Total underlay cost
-    total_underlay_cost = area * underlay_cost
-    
-    # Final total cost
-    final_total_cost = carpet_cost + total_fitting_cost + total_gripper_rod_cost + total_underlay_cost
-    
-    # Format the cost without decimals if the value is an integer
-    formatted_cost = final_total_cost == final_total_cost.to_i ? number_with_delimiter(final_total_cost.to_i, delimiter: ',') : number_with_delimiter(final_total_cost.round(2), delimiter: ',')
-  %>
+            <% if params[:door_trims].to_i > 0 %>
+              <p><%= params[:door_trims] %> door trim(s) supplied and fitted</p>
+            <% end %>
+          </div>
 
-  <div id="calculator-result">
-    <p><strong>For <%= area.round(2) %> sqm of carpet fitted, @£<%= fitting_cost %> per meter fitting cost, including underlay @£5 per sqm, plus <%= gripper_boxes %> box(es) of gripper rods, the total cost is £<%= formatted_cost %>.</strong></p>
-    <p>If you would like to book us to fit your carpets, please use the contact form below. We look forward to working with you!</p>
+          <!-- Right Column: Costs -->
+          <div style="width: 48%; text-align: right; font-size: 1.1em;">
+            <!-- If you wanted to display individual costs per service, you could add them here. -->
+            <p style="font-weight: bold;">Total cost:</p>
+            <p style="font-size: 2em; font-weight: bold; color: #2A9D8F;">£<%= sprintf('%.2f', @formatted_cost) %></p>
+          </div>
+        </div>
+
+        <hr style="margin: 20px 0;">
+
+        <div style="text-align: center;">
+          <p>To book your fitting with GT Carpets, please use the contact form below, and we'll get back to you with the next available slot.</p>
+          <p>We look forward to working with you!</p>
+          <p style="font-weight: bold;">Gareth<br>GT Carpets</p>
+        </div>
+      </div>
+    <% end %>
   </div>
+</section>
 
-  <!-- Contact form -->
-  <section id="contact">
-    <div class="container">
-        <h2>Contact Us</h2>
-        <p>Ready to get started? Contact us today!</p>
-        <%= form_with model: @contact, url: contacts_path, id: "contact-form" do |form| %>
-            <div>
-                <%= form.label :name %>
-                <%= form.text_field :name, required: true %>
-            </div>
-            <div>
-                <%= form.label :email %>
-                <%= form.email_field :email, required: true %>
-            </div>
-            <div>
-                <%= form.label :message %>
-                <%= form.text_area :message, rows: 4, required: true %>
-            </div>
-            <div>
-                <%= form.submit "Send", class: "btn btn-primary" %>
-            </div>
-        <% end %>
-    </div>
-  </section>
-<% end %>
+<section id="contact">
+  <div class="container">
+    <h2 style="font-weight: bold;">Contact Us</h2>
+    <p>Ready to get started? Contact us today!</p>
+    <%= form_with model: @contact, url: contacts_path, id: "contact-form" do |form| %>
+      <div>
+        <%= form.label :name %>
+        <%= form.text_field :name, required: true %>
+      </div>
+      <div>
+        <%= form.label :email %>
+        <%= form.email_field :email, required: true %>
+      </div>
+      <div>
+        <%= form.label :message %>
+        <%= form.text_area :message, rows: 4, required: true %>
+      </div>
+      <div>
+        <%= form.submit "Send", class: "btn btn-primary" %>
+      </div>
+    <% end %>
+  </div>
+</section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Check if total_cost is present and hide the form
+    const totalCost = "<%= @total_cost %>";
+    if (totalCost) {
+      document.getElementById('calculator-form-section').style.display = 'none';
+    }
+  });
+</script>
