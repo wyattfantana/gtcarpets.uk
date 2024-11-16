@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-ruby '3.3.0'
+ruby '3.3.5'
 gem 'rails', '~> 7.0.0'
 
 git_source(:github) do |repo_name|
