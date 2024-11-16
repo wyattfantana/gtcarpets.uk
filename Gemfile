@@ -1,25 +1,19 @@
 source 'https://rubygems.org'
+ruby '3.3.0'
+gem 'rails', '~> 7.0.0'
 
 git_source(:github) do |repo_name|
   repo_name = "#{repo_name}/#{repo_name}" unless repo_name.include?("/")
   "https://github.com/#{repo_name}.git"
 end
 
-ruby '3.3.0'
-
 gem 'nokogiri', '>= 1.13.0'
-
 gem 'sendgrid-ruby'
-
 gem 'mutex_m'
 gem 'bigdecimal'
 gem 'base64'
-
 gem 'dotenv-rails', groups: [:development, :test]
 
-
-# Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 6.1.4'
 # Use sqlite3 as the database for Active Record
 gem 'sqlite3'
 # Use Puma as the app server
