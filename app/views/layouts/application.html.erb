@@ -28,6 +28,21 @@
         </div>
     </header>
 
+    <!-- Flash Messages Display Section -->
+    <div class="flash-messages">
+        <% if notice %>
+            <div class="flash flash-notice">
+                <%= notice %>
+            </div>
+        <% end %>
+
+        <% if alert %>
+            <div class="flash flash-alert">
+                <%= alert %>
+            </div>
+        <% end %>
+    </div>
+
     <section class="hero" style="background: url('<%= asset_path("carpet1.jpg") %>') no-repeat center center; background-size: cover;">
         <div class="container">
             <h2>Welcome to GT Carpets</h2>
@@ -36,48 +51,29 @@
         </div>
     </section>
 
-    <section id="contact">
-        <div class="container">
-            <h2>Contact Us</h2>
-            <p>Ready to get started? Contact us today!</p>
-            <%= form_with url: contacts_path, id: "contact-form", method: :post do %>
-                <div>
-                    <%= label_tag :name %>
-                    <%= text_field_tag :name, nil, required: true %>
-                </div>
-                <div>
-                    <%= label_tag :email %>
-                    <%= email_field_tag :email, nil, required: true %>
-                </div>
-                <div>
-                    <%= label_tag :message %>
-                    <%= text_area_tag :message, nil, rows: 4, required: true %>
-                </div>
-                <!-- reCAPTCHA widget -->
-                <div class="g-recaptcha" data-sitekey="<%= ENV['RECAPTCHA_SITE_KEY'] %>"></div>
-                <div>
-                    <%= submit_tag "Send", class: "btn btn-primary" %>
-                </div>
-            <% end %>
-        </div>
-    </section>
-
     <%= yield %>
 
     <footer>
         <div class="footer-container">
+            <!-- Business Name -->
             <p class="business-name">GT Carpets</p>
+            <!-- Contact Name -->
             <p class="contact-name">Gareth Taylor</p>
+            <!-- Phone -->
             <p>Phone: 07494 789381</p>
+            <!-- Email -->
             <p class="email">Email: gareth@gtcarpets.uk</p>
+            
+            <!-- Action Buttons -->
             <div class="footer-actions">
                 <a href="tel:+447494789381" class="action-btn call">Call Us</a>
                 <a href="https://api.whatsapp.com/send?phone=+447494789381" target="_blank" class="action-btn whatsapp">WhatsApp</a>
                 <a href="mailto:gareth@gtcarpets.uk" class="action-btn email">Email Us</a>
             </div>
+            
+            <!-- Copyright Notice -->
             <p class="copyright">© 2024 GT Carpets. All rights reserved.</p>
         </div>
-    </footer>
+    </footer>    
 </body>
 </html>
-
