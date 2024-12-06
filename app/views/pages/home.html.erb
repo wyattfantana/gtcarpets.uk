@@ -118,28 +118,33 @@
     document.getElementById('fitting_type').addEventListener('change', updateFittingOptions);
   </script>
   
-  <!-- Contact Section -->
-  <section id="contact">
-    <div class="container">
-      <h2>Contact Us</h2>
-      <p>Ready to get started? Contact us today!</p>
-      <%= form_with model: @contact, url: contacts_path, id: "contact-form" do |form| %>
-        <div>
-          <%= form.label :name %>
-          <%= form.text_field :name, required: true %>
-        </div>
-        <div>
-          <%= form.label :email %>
-          <%= form.email_field :email, required: true %>
-        </div>
-        <div>
-          <%= form.label :message %>
-          <%= form.text_area :message, rows: 4, required: true %>
-        </div>
-        <div>
-          <%= form.submit "Send", class: "btn btn-primary" %>
-        </div>
-      <% end %>
-    </div>
-  </section>
+<!-- Contact Section -->
+<section id="contact">
+  <div class="container">
+    <h2>Contact Us</h2>
+    <p>Ready to get started? Contact us today!</p>
+    <%= form_with model: @contact, url: contacts_path, id: "contact-form" do |form| %>
+      <div>
+        <%= form.label :name %>
+        <%= form.text_field :name, required: true %>
+      </div>
+      <div>
+        <%= form.label :email %>
+        <%= form.email_field :email, required: true %>
+      </div>
+      <div>
+        <%= form.label :message %>
+        <%= form.text_area :message, rows: 4, required: true %>
+      </div>
+      
+      <!-- reCAPTCHA widget -->
+      <div class="g-recaptcha" data-sitekey="<%= ENV['RECAPTCHA_SITE_KEY'] %>"></div>
+      
+      <div>
+        <%= form.submit "Send", class: "btn btn-primary" %>
+      </div>
+    <% end %>
+  </div>
+</section>
+
   

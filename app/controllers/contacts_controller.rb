@@ -1,20 +1,38 @@
 class ContactsController < ApplicationController
+  require 'net/http'
+  require 'json'
+
   def create
-    # Assuming params[:contact] contains :name, :email, and :message keys
-    # Adjust the parameter keys according to your form data
+    # Capture form data
     name = params[:name]
     email = params[:email]
     message = params[:message]
+    
+    # Validate reCAPTCHA response
+    recaptcha_response = params['g-recaptcha-response']
+    secret_key = ENV['RECAPTCHA_SECRET_KEY']  # Store your Secret Key in an environment variable
+    
+    # Request reCAPTCHA verification
+    uri = URI('https://www.google.com/recaptcha/api/siteverify')
+    res = Net::HTTP.post_form(uri, {
+      'secret' => secret_key,
+      'response' => recaptcha_response
+    })
+    result = JSON.parse(res.body)
 
-    # Call your mailer to send the email
-    ContactMailer.contact_email(name, email, message).deliver_now
+    # Check if reCAPTCHA validation is successful
+    if result['success']
+      # Call your mailer to send the email
+      ContactMailer.contact_email(name, email, message).deliver_now
 
-    # Provide feedback to the user
-    redirect_to root_path, notice: 'Your message has been sent successfully!'
+      # Provide feedback to the user
+      redirect_to root_path, notice: 'Your message has been sent successfully!'
+    else
+      flash.now[:alert] = 'Failed to verify reCAPTCHA. Please try again.'
+      render :new
+    end
   rescue => e
-    puts "Error sending email: #{e.message}"
-    flash.now[:alert] = 'Failed to send email. Please try again later.'
+    flash.now[:alert] = 'An error occurred. Please try again later.'
     render :new
   end
 end
-
