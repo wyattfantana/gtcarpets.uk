@@ -334,3 +334,30 @@ footer {
   color: #555; /* Slightly lighter color for the message */
 }
 
+/* Flash Messages Styling */
+.flash-notice, .flash-alert {
+  max-width: 600px; /* Limit width for better readability */
+  margin: 20px auto; /* Center horizontally */
+  padding: 15px 20px; /* Add padding for spacing */
+  border-radius: 8px; /* Rounded corners */
+  font-size: 18px; /* Larger text for better visibility */
+  text-align: center; /* Center the text */
+  font-weight: bold; /* Make the text stand out */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+}
+
+/* Specific styles for success messages */
+.flash-notice {
+  background-color: #d1e7dd; /* Light green background */
+  color: #0f5132; /* Dark green text */
+  border: 1px solid #badbcc; /* Border to match */
+}
+
+/* Specific styles for error messages */
+.flash-alert {
+  background-color: #f8d7da; /* Light red background */
+  color: #842029; /* Dark red text */
+  border: 1px solid #f5c2c7; /* Border to match */
+}
+
+

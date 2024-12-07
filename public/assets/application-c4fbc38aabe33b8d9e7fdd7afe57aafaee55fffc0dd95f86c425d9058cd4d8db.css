@@ -95,7 +95,7 @@ header {
   background: linear-gradient(
     rgba(0, 0, 0, 0.5), /* Dark overlay for better text contrast */
     rgba(0, 0, 0, 0.5)
-  ), url('../images/carpet1.jpg') no-repeat center center; /* Adjust the path as needed */
+  ), url(/../images/carpet1.jpg) no-repeat center center; /* Adjust the path as needed */
   background-size: cover;
   position: relative; /* For pseudo-element positioning */
   overflow: hidden; /* Ensures pseudo-elements don't exceed the container */
@@ -276,3 +276,89 @@ footer {
 #contact-form input[type="submit"]:hover {
   background: #d35400; /* Darker shade of orange on hover */
 }
+
+/* Price Calculator Section Styles */
+#calculator-form {
+  background: #f9f9f9; /* Same as the contact form */
+  padding: 20px;
+  border-radius: 5px;
+  border: 1px solid #ddd; /* Subtle border */
+  margin-bottom: 40px; /* Space between sections */
+}
+
+#calculator-form div {
+  margin-bottom: 15px;
+}
+
+#calculator-form label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+#calculator-form input[type="text"],
+#calculator-form input[type="number"] {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+#calculator-form input[type="submit"] {
+  background: #e67e22; /* Matches the orange button */
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#calculator-form input[type="submit"]:hover {
+  background: #d35400; /* Darker orange on hover */
+}
+
+#calculator-result {
+  font-size: 1.2em;
+  text-align: center;
+  margin-top: 20px;
+  color: #333; /* Neutral text color */
+}
+
+#calculator-result p {
+  margin: 10px 0;
+  font-weight: bold; /* Bold the important part */
+}
+
+#calculator-result p:nth-child(2) {
+  font-weight: normal; /* Second paragraph with a normal font */
+  font-size: 1em; /* Keep it a little smaller than the cost */
+  margin-top: 10px;
+  color: #555; /* Slightly lighter color for the message */
+}
+
+/* Flash Messages Styling */
+.flash-notice, .flash-alert {
+  max-width: 600px; /* Limit width for better readability */
+  margin: 20px auto; /* Center horizontally */
+  padding: 15px 20px; /* Add padding for spacing */
+  border-radius: 8px; /* Rounded corners */
+  font-size: 18px; /* Larger text for better visibility */
+  text-align: center; /* Center the text */
+  font-weight: bold; /* Make the text stand out */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+}
+
+/* Specific styles for success messages */
+.flash-notice {
+  background-color: #d1e7dd; /* Light green background */
+  color: #0f5132; /* Dark green text */
+  border: 1px solid #badbcc; /* Border to match */
+}
+
+/* Specific styles for error messages */
+.flash-alert {
+  background-color: #f8d7da; /* Light red background */
+  color: #842029; /* Dark red text */
+  border: 1px solid #f5c2c7; /* Border to match */
+}
+
+
