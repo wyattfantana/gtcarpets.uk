@@ -11,7 +11,7 @@ class ContactsController < ApplicationController
     # Validate reCAPTCHA response
     recaptcha_response = params['g-recaptcha-response']
     secret_key = ENV['RECAPTCHA_SECRET_KEY']  # Store your Secret Key in an environment variable
-    
+
     # Request reCAPTCHA verification
     uri = URI('https://www.google.com/recaptcha/api/siteverify')
     res = Net::HTTP.post_form(uri, {
@@ -28,11 +28,11 @@ class ContactsController < ApplicationController
       # Provide feedback to the user
       redirect_to root_path, notice: 'Your message has been sent successfully!'
     else
-      flash.now[:alert] = 'Failed to verify reCAPTCHA. Please try again.'
-      render :new
+      # Handle reCAPTCHA failure and redirect to the homepage
+      redirect_to root_path, alert: 'Failed to verify reCAPTCHA. Please try again.'
     end
   rescue => e
-    flash.now[:alert] = 'An error occurred. Please try again later.'
-    render :new
+    # Handle unexpected errors and redirect to the homepage
+    redirect_to root_path, alert: 'An error occurred. Please try again later.'
   end
 end
