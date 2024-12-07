@@ -96,9 +96,10 @@
   </div>
 </section>
 
+<!-- Contact Section -->
 <section id="contact">
   <div class="container">
-    <h2 style="font-weight: bold;">Contact Us</h2>
+    <h2>Contact Us</h2>
     <p>Ready to get started? Contact us today!</p>
     <%= form_with model: @contact, url: contacts_path, id: "contact-form" do |form| %>
       <div>
@@ -113,6 +114,10 @@
         <%= form.label :message %>
         <%= form.text_area :message, rows: 4, required: true %>
       </div>
+      
+      <!-- reCAPTCHA widget -->
+      <div class="g-recaptcha" data-sitekey="<%= ENV['RECAPTCHA_SITE_KEY'] %>"></div>
+      
       <div>
         <%= form.submit "Send", class: "btn btn-primary" %>
       </div>
