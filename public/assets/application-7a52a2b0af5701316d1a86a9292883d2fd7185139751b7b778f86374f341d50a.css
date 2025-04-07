@@ -1,4 +1,5 @@
 /* General Styles */
+
 html {
   scroll-behavior: smooth;
 }
@@ -1121,7 +1122,7 @@ select.form-control {
 
 /* Adding landscape background image - adjust for all sections */
 .landscape-bg {
-  background-image: url('signal-2025-04-07-210458_002.jpeg');
+  background-image: url(/assets/signal-2025-04-07-210458_002-ec579000024e93aa3cb77004984a2ef9c5c41c46ff71e69ed78096e2941c9af2.jpg);
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
