@@ -3,9 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="GT Carpets - Professional carpet fitting services in Buxton, UK. Quality carpet and vinyl installation by Gareth Taylor with over 20 years of experience.">
+    <meta name="keywords" content="carpet fitting, Buxton, GT Carpets, vinyl flooring, carpet installation">
+    <meta name="author" content="GT Carpets">
     <title>GT Carpets - Your first choice for quality carpet solutions.</title>
     <link rel="icon" type="image/png" href="<%= asset_path('logo.png') %>">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
     <%= csrf_meta_tags %>
     <!-- Google reCAPTCHA Script -->
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
@@ -19,11 +29,23 @@
             </a>
             <!-- Navigation -->
             <nav class="header-nav">
-                <ul>
+                <div class="mobile-menu-toggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                <ul class="nav-menu">
+                    <div class="mobile-menu-header">
+                        <img src="<%= asset_path('logo.png') %>" alt="GT Carpets Logo" class="mobile-logo">
+                    </div>
                     <li><%= link_to "About", "#about" %></li>
                     <li><%= link_to "Services", "#services" %></li>
                     <li><%= link_to "Price Calculator", "#calculator" %></li>
                     <li><%= link_to "Contact", "#contact" %></li>
+                    <div class="mobile-menu-footer">
+                        <a href="tel:+447494789381" class="mobile-action-btn">Call Us</a>
+                        <a href="mailto:gareth@gtcarpets.uk" class="mobile-action-btn">Email Us</a>
+                    </div>
                 </ul>
             </nav>
         </div>
@@ -67,14 +89,71 @@
             
             <!-- Action Buttons -->
             <div class="footer-actions">
-                <a href="tel:+447494789381" class="action-btn call">Call Us</a>
-                <a href="https://api.whatsapp.com/send?phone=+447494789381" target="_blank" class="action-btn whatsapp">WhatsApp</a>
-                <a href="mailto:gareth@gtcarpets.uk" class="action-btn email">Email Us</a>
+                <a href="tel:+447494789381" class="footer-btn call-btn">Call Us</a>
+                <a href="https://api.whatsapp.com/send?phone=+447494789381" target="_blank" class="footer-btn whatsapp-btn">WhatsApp</a>
+                <a href="mailto:gareth@gtcarpets.uk" class="footer-btn email-btn">Email Us</a>
             </div>
             
             <!-- Copyright Notice -->
-            <p class="copyright">© 2024 GT Carpets. All rights reserved.</p>
+            <p class="copyright">© <%= Time.now.year %> GT Carpets. All rights reserved.</p>
         </div>
-    </footer>    
+    </footer>
+    
+    <script>
+        // Improved mobile menu toggle
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuToggle = document.querySelector('.mobile-menu-toggle');
+            const navMenu = document.querySelector('.nav-menu');
+            
+            if (menuToggle) {
+                // Toggle menu state when clicking the hamburger icon
+                menuToggle.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    this.classList.toggle('active');
+                    navMenu.classList.toggle('active');
+                    document.body.classList.toggle('menu-open');
+                });
+                
+                // Close menu when clicking on a link
+                const navLinks = document.querySelectorAll('.nav-menu li a');
+                navLinks.forEach(link => {
+                    link.addEventListener('click', function() {
+                        menuToggle.classList.remove('active');
+                        navMenu.classList.remove('active');
+                        document.body.classList.remove('menu-open');
+                    });
+                });
+                
+                // Close menu when clicking outside
+                document.addEventListener('click', function(e) {
+                    if (navMenu.classList.contains('active') && 
+                        !navMenu.contains(e.target) && 
+                        e.target !== menuToggle && 
+                        !menuToggle.contains(e.target)) {
+                        menuToggle.classList.remove('active');
+                        navMenu.classList.remove('active');
+                        document.body.classList.remove('menu-open');
+                    }
+                });
+                
+                // Prevent clicks inside the menu from closing it
+                navMenu.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                });
+            }
+            
+            // Script to hide flash messages after 5 seconds
+            setTimeout(function() {
+                const flashMessages = document.querySelectorAll('.flash');
+                flashMessages.forEach(function(message) {
+                    message.style.opacity = '0';
+                    message.style.transform = 'translateY(-20px)';
+                    setTimeout(function() {
+                        message.style.display = 'none';
+                    }, 500);
+                });
+            }, 5000);
+        });
+    </script>
 </body>
 </html>
