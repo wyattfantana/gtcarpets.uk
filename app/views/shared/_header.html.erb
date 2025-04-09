@@ -1,0 +1,31 @@
+<header>
+    <div class="container header-container">
+        <!-- Logo as a link to the home page -->
+        <a href="/" class="header-logo">
+            <%= image_tag "logo.png", alt: "GT Carpets Logo" %>
+        </a>
+        <!-- Navigation -->
+        <nav class="header-nav">
+            <div class="mobile-menu-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <ul class="nav-menu">
+                <div class="mobile-menu-header">
+                    <%= link_to root_path, class: "mobile-logo-link", onclick: "document.querySelector('.nav-menu').classList.remove('active'); return true;" do %>
+                        <%= image_tag "logo.png", alt: "GT Carpets Logo", class: "mobile-logo" %>
+                    <% end %>
+                </div>
+                <li><%= link_to "About", root_path(anchor: 'about') %></li>
+                <li><%= link_to "Services", root_path(anchor: 'services') %></li>
+                <li><%= link_to "Price Calculator", root_path(anchor: 'calculator') %></li>
+                <li><%= link_to "Contact", root_path(anchor: 'contact') %></li>
+                <div class="mobile-menu-footer">
+                    <a href="tel:+447494789381" class="mobile-action-btn">Call Us</a>
+                    <a href="mailto:gareth@gtcarpets.uk" class="mobile-action-btn">Email Us</a>
+                </div>
+            </ul>
+        </nav>
+    </div>
+</header> 

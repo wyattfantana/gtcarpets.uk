@@ -21,35 +21,12 @@
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </head>
 <body>
-    <header>
-        <div class="container header-container">
-            <!-- Logo as a link to the home page, using asset_path for the src attribute -->
-            <a href="/" class="header-logo">
-                <img src="<%= asset_path('logo.png') %>" alt="GT Carpets Logo">
-            </a>
-            <!-- Navigation -->
-            <nav class="header-nav">
-                <div class="mobile-menu-toggle">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </div>
-                <ul class="nav-menu">
-                    <div class="mobile-menu-header">
-                        <img src="<%= asset_path('logo.png') %>" alt="GT Carpets Logo" class="mobile-logo">
-                    </div>
-                    <li><%= link_to "About", "#about" %></li>
-                    <li><%= link_to "Services", "#services" %></li>
-                    <li><%= link_to "Price Calculator", "#calculator" %></li>
-                    <li><%= link_to "Contact", "#contact" %></li>
-                    <div class="mobile-menu-footer">
-                        <a href="tel:+447494789381" class="mobile-action-btn">Call Us</a>
-                        <a href="mailto:gareth@gtcarpets.uk" class="mobile-action-btn">Email Us</a>
-                    </div>
-                </ul>
-            </nav>
-        </div>
-    </header>
+    <%= render 'shared/header' %>
+    
+    <!-- Only show hero section on home page -->
+    <% if current_page?(root_path) %>
+      <%= render 'shared/hero' %>
+    <% end %>
 
     <!-- Flash Messages Display Section -->
     <div class="flash-messages">
@@ -66,38 +43,9 @@
         <% end %>
     </div>
 
-    <section class="hero" style="background: url('<%= asset_path("carpet1.jpg") %>') no-repeat center center; background-size: cover;">
-        <div class="container">
-            <h2>Welcome to GT Carpets</h2>
-            <p>Your first choice for quality carpet solutions.</p>
-            <%= link_to "Instant Prices. Click Here", "#calculator", class: "btn" %>
-        </div>
-    </section>
-
     <%= yield %>
 
-    <footer>
-        <div class="footer-container">
-            <!-- Business Name -->
-            <p class="business-name">GT Carpets</p>
-            <!-- Contact Name -->
-            <p class="contact-name">Gareth Taylor</p>
-            <!-- Phone -->
-            <p>Phone: 07494 789381</p>
-            <!-- Email -->
-            <p class="email">Email: gareth@gtcarpets.uk</p>
-            
-            <!-- Action Buttons -->
-            <div class="footer-actions">
-                <a href="tel:+447494789381" class="footer-btn call-btn">Call Us</a>
-                <a href="https://api.whatsapp.com/send?phone=+447494789381" target="_blank" class="footer-btn whatsapp-btn">WhatsApp</a>
-                <a href="mailto:gareth@gtcarpets.uk" class="footer-btn email-btn">Email Us</a>
-            </div>
-            
-            <!-- Copyright Notice -->
-            <p class="copyright">© <%= Time.now.year %> GT Carpets. All rights reserved.</p>
-        </div>
-    </footer>
+    <%= render 'shared/footer' %>
     
     <script>
         // Improved mobile menu toggle
