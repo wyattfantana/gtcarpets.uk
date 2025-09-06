@@ -6,6 +6,7 @@ Rails.application.routes.draw do
     delete 'logout', to: 'sessions#destroy'
     
     resources :prices, only: [:index, :edit, :update]
+    post 'reset_defaults', to: 'prices#reset_defaults'
   end
   
   root 'pages#home'

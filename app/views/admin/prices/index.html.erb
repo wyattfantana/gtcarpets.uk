@@ -2,6 +2,13 @@
 
 <p>Manage all pricing for the carpet calculator. Click "Edit" next to any price to update it.</p>
 
+<div style="margin-bottom: 20px;">
+  <%= link_to "Reset All to Defaults", admin_reset_defaults_path, 
+      method: :post, 
+      class: "btn btn-danger",
+      data: { confirm: "Are you sure? This will reset ALL prices to their original default values." } %>
+</div>
+
 <table class="price-table">
   <thead>
     <tr>
@@ -15,7 +22,7 @@
     <% @prices.each do |price| %>
       <tr>
         <td><strong><%= price.name.humanize %></strong></td>
-        <td class="price-value">£<%= price.value %></td>
+        <td class="price-value">£<%= sprintf('%.2f', price.value) %></td>
         <td><%= price.description %></td>
         <td>
           <%= link_to "Edit", edit_admin_price_path(price), class: "btn" %>
