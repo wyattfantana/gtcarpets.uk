@@ -1,0 +1,18 @@
+<h2>Edit Price: <%= @price.name.humanize %></h2>
+
+<%= form_with model: [:admin, @price], local: true do |form| %>
+  <div class="form-group">
+    <%= form.label :value, "Price (£)" %>
+    <%= form.number_field :value, step: 0.01, min: 0, required: true %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :description %>
+    <%= form.text_field :description, placeholder: "Brief description of this price" %>
+  </div>
+
+  <div class="form-group">
+    <%= form.submit "Update Price", class: "btn btn-success" %>
+    <%= link_to "Cancel", admin_prices_path, class: "btn" %>
+  </div>
+<% end %>

@@ -1,0 +1,30 @@
+<h2>Price Management</h2>
+
+<p>Manage all pricing for the carpet calculator. Click "Edit" next to any price to update it.</p>
+
+<table class="price-table">
+  <thead>
+    <tr>
+      <th>Price Name</th>
+      <th>Current Value</th>
+      <th>Description</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @prices.each do |price| %>
+      <tr>
+        <td><strong><%= price.name.humanize %></strong></td>
+        <td class="price-value">£<%= price.value %></td>
+        <td><%= price.description %></td>
+        <td>
+          <%= link_to "Edit", edit_admin_price_path(price), class: "btn" %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<% if @prices.empty? %>
+  <p>No prices configured yet. Please run the seed data first.</p>
+<% end %>

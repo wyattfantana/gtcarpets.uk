@@ -6,16 +6,16 @@ class CarpetsController < ApplicationController
     fitting_type = params[:fitting_type] # Carpet or Vinyl
     door_trims = params[:door_trims].to_i
     
-    # Internal prices
-    carpet_fitting_cost = 7.50 # per sqm
-    vinyl_fitting_cost = 10.50 # per sqm
-    gripper_rod_price = 60.30 # per box
-    underlay_price_per_roll = 60 # per roll
-    spray_adhesive_price = 60 # per 12 tins
-    door_trim_price = 9 # per trim
-    plyboarding_cost = 10.50 # per sqm
-    plyboard_price = 34 # per plyboard
-    min_charge = 150 # Minimum charge for small rooms
+    # Get prices from database (with fallback to hardcoded values)
+    carpet_fitting_cost = Price.carpet_fitting_cost
+    vinyl_fitting_cost = Price.vinyl_fitting_cost
+    gripper_rod_price = Price.gripper_rod_price
+    underlay_price_per_roll = Price.underlay_price_per_roll
+    spray_adhesive_price = Price.spray_adhesive_price
+    door_trim_price = Price.door_trim_price
+    plyboarding_cost = Price.plyboarding_cost
+    plyboard_price = Price.plyboard_price
+    min_charge = Price.min_charge
 
     # Calculate area
     @area = length * width
