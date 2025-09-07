@@ -3,7 +3,10 @@ class Setting < ApplicationRecord
   
   # Helper method to get setting values
   def self.get(key)
+    return nil unless table_exists?
     find_by(key: key)&.value
+  rescue ActiveRecord::StatementInvalid
+    nil
   end
   
   # Helper method to get setting with fallback
