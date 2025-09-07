@@ -1,0 +1,160 @@
+<h1>GT Carpets Website Management</h1>
+<p>Manage all aspects of your website from this single dashboard.</p>
+
+<!-- About Us Section -->
+<div class="admin-section">
+  <h2>📖 About Us Content</h2>
+  <div class="section-content">
+    <%= form_with model: [:admin, @about_us], url: admin_update_setting_path(@about_us), local: true, class: 'admin-form' do |form| %>
+      <div class="form-group">
+        <%= form.label :value, "About Us Text:" %>
+        <%= form.text_area :value, rows: 8, style: "width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-family: Arial, sans-serif;" %>
+      </div>
+      <div class="form-actions">
+        <%= form.submit "Update About Us", class: "btn btn-success" %>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<!-- Our Expertise Section -->
+<div class="admin-section">
+  <h2>🔧 Our Expertise Content</h2>
+  <div class="section-content">
+    <%= form_with model: [:admin, @our_expertise], url: admin_update_setting_path(@our_expertise), local: true, class: 'admin-form' do |form| %>
+      <div class="form-group">
+        <%= form.label :value, "Our Expertise Text:" %>
+        <%= form.text_area :value, rows: 10, style: "width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-family: Arial, sans-serif;" %>
+      </div>
+      <div class="form-actions">
+        <%= form.submit "Update Our Expertise", class: "btn btn-success" %>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<!-- Calculator Settings -->
+<div class="admin-section">
+  <h2>🧮 Price Calculator Settings</h2>
+  
+  <!-- Calculator Toggle -->
+  <div class="section-content">
+    <h3>Calculator Status</h3>
+    <%= form_with model: [:admin, @calculator_enabled], url: admin_update_setting_path(@calculator_enabled), local: true, class: 'admin-form inline-form' do |form| %>
+      <div class="form-group inline-group">
+        <%= form.label :value, "Calculator Status:" %>
+        <%= form.select :value, [['Enabled', 'true'], ['Disabled', 'false']], {}, { class: 'form-control inline-input' } %>
+        <%= form.submit "Update Status", class: "btn btn-success btn-small" %>
+      </div>
+    <% end %>
+  </div>
+
+  <!-- Fitting Costs -->
+  <div class="section-content">
+    <h3>Fitting Costs</h3>
+    <div class="price-grid">
+      <% @fitting_prices.each do |price| %>
+        <div class="price-item">
+          <%= form_with model: [:admin, price], url: admin_update_price_path(price), local: true, class: 'admin-form inline-form' do |form| %>
+            <div class="form-group inline-group">
+              <label><%= price.name.humanize %>:</label>
+              <div class="price-input-group">
+                <span class="currency">£</span>
+                <%= form.number_field :value, step: 0.01, min: 0, value: sprintf('%.2f', price.value), class: 'form-control price-input' %>
+                <%= form.submit "Update", class: "btn btn-success btn-small" %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- Material Costs -->
+  <div class="section-content">
+    <h3>Material & Additional Costs</h3>
+    <div class="price-grid">
+      <% @material_prices.each do |price| %>
+        <div class="price-item">
+          <%= form_with model: [:admin, price], url: admin_update_price_path(price), local: true, class: 'admin-form inline-form' do |form| %>
+            <div class="form-group inline-group">
+              <label><%= price.name.humanize %>:</label>
+              <div class="price-input-group">
+                <span class="currency">£</span>
+                <%= form.number_field :value, step: 0.01, min: 0, value: sprintf('%.2f', price.value), class: 'form-control price-input' %>
+                <%= form.submit "Update", class: "btn btn-success btn-small" %>
+              </div>
+              <small class="price-description"><%= price.description %></small>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- Other Settings -->
+  <div class="section-content">
+    <h3>Other Calculator Settings</h3>
+    <div class="price-grid">
+      <% @other_prices.each do |price| %>
+        <div class="price-item">
+          <%= form_with model: [:admin, price], url: admin_update_price_path(price), local: true, class: 'admin-form inline-form' do |form| %>
+            <div class="form-group inline-group">
+              <label><%= price.name.humanize %>:</label>
+              <div class="price-input-group">
+                <span class="currency">£</span>
+                <%= form.number_field :value, step: 0.01, min: 0, value: sprintf('%.2f', price.value), class: 'form-control price-input' %>
+                <%= form.submit "Update", class: "btn btn-success btn-small" %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+    
+    <div class="reset-section">
+      <%= link_to "Reset All Prices to Defaults", admin_reset_defaults_path, 
+          method: :post, 
+          class: "btn btn-danger",
+          data: { confirm: "Are you sure? This will reset ALL prices to their original default values." } %>
+    </div>
+  </div>
+</div>
+
+<!-- Contact Information -->
+<div class="admin-section">
+  <h2>📞 Contact Information</h2>
+  <div class="section-content">
+    <div class="contact-grid">
+      <div class="contact-item">
+        <%= form_with model: [:admin, @contact_name], url: admin_update_setting_path(@contact_name), local: true, class: 'admin-form inline-form' do |form| %>
+          <div class="form-group inline-group">
+            <%= form.label :value, "Contact Name:" %>
+            <%= form.text_field :value, class: 'form-control inline-input' %>
+            <%= form.submit "Update", class: "btn btn-success btn-small" %>
+          </div>
+        <% end %>
+      </div>
+      
+      <div class="contact-item">
+        <%= form_with model: [:admin, @contact_phone], url: admin_update_setting_path(@contact_phone), local: true, class: 'admin-form inline-form' do |form| %>
+          <div class="form-group inline-group">
+            <%= form.label :value, "Phone Number:" %>
+            <%= form.text_field :value, class: 'form-control inline-input' %>
+            <%= form.submit "Update", class: "btn btn-success btn-small" %>
+          </div>
+        <% end %>
+      </div>
+      
+      <div class="contact-item">
+        <%= form_with model: [:admin, @contact_email], url: admin_update_setting_path(@contact_email), local: true, class: 'admin-form inline-form' do |form| %>
+          <div class="form-group inline-group">
+            <%= form.label :value, "Email Address:" %>
+            <%= form.email_field :value, class: 'form-control inline-input' %>
+            <%= form.submit "Update", class: "btn btn-success btn-small" %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

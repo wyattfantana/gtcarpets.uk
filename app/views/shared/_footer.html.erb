@@ -3,11 +3,11 @@
         <!-- Business Name -->
         <p class="business-name">GT Carpets</p>
         <!-- Contact Name -->
-        <p class="contact-name">Gareth Taylor</p>
+        <p class="contact-name"><%= Setting.get_or_default('contact_name', 'Gareth Taylor') %></p>
         <!-- Phone -->
-        <p>Phone: 07494 789381</p>
+        <p>Phone: <%= Setting.get_or_default('contact_phone', '07494 789381') %></p>
         <!-- Email -->
-        <p class="email">Email: gareth@gtcarpets.uk</p>
+        <p class="email">Email: <%= Setting.get_or_default('contact_email', 'gareth@gtcarpets.uk') %></p>
         
         <!-- Action Buttons -->
         <div class="footer-actions">

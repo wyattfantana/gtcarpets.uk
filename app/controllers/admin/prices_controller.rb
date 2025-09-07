@@ -13,9 +13,9 @@ class Admin::PricesController < Admin::ApplicationController
     @price = Price.find(params[:id])
     
     if @price.update(price_params)
-      redirect_to admin_prices_path, notice: 'Price updated successfully!'
+      redirect_to admin_path, notice: 'Price updated successfully!'
     else
-      render :edit, alert: 'Error updating price.'
+      redirect_to admin_path, alert: 'Error updating price.'
     end
   end
 
@@ -38,7 +38,7 @@ class Admin::PricesController < Admin::ApplicationController
       price&.update(value: value)
     end
     
-    redirect_to admin_prices_path, notice: 'All prices reset to default values!'
+    redirect_to admin_path, notice: 'All prices reset to default values!'
   end
   
   private

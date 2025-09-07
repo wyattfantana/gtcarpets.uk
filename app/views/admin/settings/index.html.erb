@@ -1,0 +1,40 @@
+<h2>Site Content Management</h2>
+
+<p>Edit your website content, contact information, and settings.</p>
+
+<table class="price-table">
+  <thead>
+    <tr>
+      <th>Setting</th>
+      <th>Current Value</th>
+      <th>Description</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @settings.each do |setting| %>
+      <tr>
+        <td><strong><%= setting.key.humanize %></strong></td>
+        <td>
+          <% if setting.value.to_s.length > 50 %>
+            <%= truncate(setting.value, length: 50) %>
+          <% elsif setting.key.include?('enabled') %>
+            <span class="<%= setting.value == 'true' ? 'text-success' : 'text-danger' %>">
+              <%= setting.value == 'true' ? 'Enabled' : 'Disabled' %>
+            </span>
+          <% else %>
+            <%= setting.value %>
+          <% end %>
+        </td>
+        <td><%= setting.description %></td>
+        <td>
+          <%= link_to "Edit", edit_admin_setting_path(setting), class: "btn" %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<% if @settings.empty? %>
+  <p>No settings configured yet. Please run the seed data first.</p>
+<% end %>
