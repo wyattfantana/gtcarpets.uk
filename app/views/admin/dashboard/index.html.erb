@@ -33,6 +33,32 @@
   </div>
 </div>
 
+<!-- Gallery Management -->
+<div class="admin-section">
+  <h2>🖼️ Gallery Management</h2>
+  
+  <!-- Gallery Toggle -->
+  <div class="section-content">
+    <h3>Gallery Status</h3>
+    <%= form_with model: [:admin, @gallery_enabled], url: admin_update_setting_path(@gallery_enabled), local: true, class: 'admin-form inline-form' do |form| %>
+      <div class="form-group inline-group">
+        <%= form.label :value, "Gallery Status:" %>
+        <%= form.select :value, [['Enabled', 'true'], ['Disabled', 'false']], {}, { class: 'form-control inline-input' } %>
+        <%= form.submit "Update Status", class: "btn btn-success btn-small" %>
+      </div>
+    <% end %>
+  </div>
+
+  <!-- Gallery Images -->
+  <div class="section-content">
+    <h3>Gallery Images (<%= @gallery_count %> total)</h3>
+    
+    <div class="gallery-actions" style="margin-bottom: 1.5rem;">
+      <%= link_to "Manage All Images", admin_galleries_path, class: "btn" %>
+    </div>
+  </div>
+</div>
+
 <!-- Calculator Settings -->
 <div class="admin-section">
   <h2>🧮 Price Calculator Settings</h2>

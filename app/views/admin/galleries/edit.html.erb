@@ -1,0 +1,73 @@
+<h1>Edit Gallery Image</h1>
+<p>Update your gallery image details</p>
+
+
+<div class="admin-form-container" style="max-width: 600px;">
+  <%= form_with model: [:admin, @gallery], local: true, multipart: true, class: 'admin-form' do |form| %>
+    <% if @gallery.errors.any? %>
+      <div style="color: red; margin-bottom: 1rem;">
+        <h4><%= pluralize(@gallery.errors.count, "error") %> prohibited this image from being updated:</h4>
+        <ul>
+          <% @gallery.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <!-- Current Image Preview -->
+    <div class="form-group" style="margin-bottom: 1.5rem;">
+      <label>Current Image:</label>
+      <div style="border: 1px solid #ddd; padding: 10px; border-radius: 4px; background: #f9f9f9;">
+        <img src="<%= @gallery.display_image_url %>" 
+             alt="Gallery Image" 
+             style="max-width: 200px; height: auto; border-radius: 4px;"
+             onerror="this.src='https://via.placeholder.com/200x150?text=Image+Error'">
+      </div>
+    </div>
+
+    <div class="form-group" style="margin-bottom: 1.5rem;">
+      <%= form.label :image, "Replace Image:" %>
+      <%= form.file_field :image, accept: "image/*", 
+                          style: "width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px;" %>
+      <small style="color: #666;">Choose a new image file to replace the current one (optional)</small>
+    </div>
+
+
+
+    <div class="form-group" style="margin-bottom: 1.5rem;">
+      <label style="display: flex; align-items: center; cursor: pointer;">
+        <%= form.check_box :featured, id: 'edit_featured_checkbox', onchange: 'toggleEditPositionField()', 
+            style: "margin: 0; margin-right: 8px; transform: scale(1.2);" %>
+        <span>Display on homepage</span>
+      </label>
+      <small style="color: #666; margin-left: 24px;">Check this to show the image on the homepage gallery preview</small>
+    </div>
+
+    <div class="form-group" id="edit_position_field" style="margin-bottom: 1.5rem;">
+      <%= form.label :position, "Homepage Position:" %>
+      <%= form.number_field :position, min: 1, max: 6, class: "form-control", 
+                           style: "width: 100px; padding: 10px; border: 1px solid #ddd; border-radius: 4px;" %>
+      <small style="color: #666;">Position on homepage (1-6, lower numbers appear first)</small>
+    </div>
+
+    <script>
+      function toggleEditPositionField() {
+        const checkbox = document.getElementById('edit_featured_checkbox');
+        const positionField = document.getElementById('edit_position_field');
+        positionField.style.display = checkbox.checked ? 'block' : 'none';
+      }
+      
+      // Set initial state on page load
+      document.addEventListener('DOMContentLoaded', toggleEditPositionField);
+    </script>
+
+    <div class="form-actions">
+      <%= form.submit "Update Image", class: "btn btn-success" %>
+      <%= link_to "Back to Gallery", admin_galleries_path, class: "btn" %>
+      <%= link_to "Delete", admin_gallery_path(@gallery), method: :delete, 
+                  class: "btn btn-danger",
+                  data: { confirm: "Are you sure you want to delete this image?" } %>
+    </div>
+  <% end %>
+</div>

@@ -1,0 +1,168 @@
+<h1>Manage Gallery Images</h1>
+<p>Upload images and manage which ones appear on your homepage</p>
+
+<div style="margin-bottom: 2rem;">
+  <%= link_to "Upload New Images", new_admin_gallery_path, class: "btn btn-success" %>
+  <%= link_to "Back to Dashboard", admin_path, class: "btn" %>
+</div>
+
+<% if @galleries.any? %>
+  <div style="background: #f8f9fa; padding: 1rem; border-radius: 4px; margin-bottom: 2rem;">
+    <div style="display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap; justify-content: flex-end;">
+      <div style="display: flex; gap: 0.75rem;">
+        <button type="button" onclick="selectAll()" class="btn btn-success btn-small">Select All</button>
+        <button type="button" onclick="selectNone()" class="btn btn-small">Clear Selection</button>
+      </div>
+      
+      <%= form_with url: admin_bulk_galleries_path, method: :patch, local: true, id: 'homepage-form', style: "display: inline;" do |form| %>
+        <%= hidden_field_tag :bulk_action, 'set_homepage' %>
+        <%= submit_tag "Set as Homepage Images", id: "homepage-btn", class: "btn btn-primary" %>
+      <% end %>
+      
+      <%= form_with url: admin_bulk_galleries_path, method: :patch, local: true, id: 'bulk-form', style: "display: inline;" do |form| %>
+        <%= hidden_field_tag :bulk_action, 'delete' %>
+        <%= submit_tag "Delete Selected", class: "btn btn-danger", data: { confirm: 'Are you sure?' } %>
+      <% end %>
+    </div>
+  </div>
+<% end %>
+
+<% if @galleries.any? %>
+  <div class="gallery-admin-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
+    <% @galleries.each do |gallery| %>
+      <div class="gallery-admin-card" style="border: 1px solid #ddd; border-radius: 8px; overflow: hidden; background: white; position: relative;">
+        <div style="position: absolute; top: 10px; left: 10px; z-index: 10;">
+          <%= check_box_tag "selected_galleries[]", gallery.id, false, 
+              class: "gallery-checkbox", 
+              style: "transform: scale(1.5); background: white; border: 2px solid #333;" %>
+        </div>
+        
+        <img src="<%= gallery.display_image_url %>" 
+             alt="Gallery Image" 
+             style="width: 100%; height: 200px; object-fit: cover;" 
+             onerror="this.src='https://via.placeholder.com/300x200?text=Image+Error'">
+        
+      </div>
+    <% end %>
+  </div>
+<% else %>
+  <div style="text-align: center; padding: 3rem; color: #666;">
+    <h3>No gallery images yet</h3>
+    <p>Add your first image to start showcasing your work</p>
+    <%= link_to "Upload First Images", new_admin_gallery_path, class: "btn btn-success" %>
+  </div>
+<% end %>
+
+<script>
+  function selectAll() {
+    document.querySelectorAll('.gallery-checkbox').forEach(checkbox => {
+      checkbox.checked = true;
+    });
+    updateHomepageButton();
+  }
+  
+  function selectNone() {
+    document.querySelectorAll('.gallery-checkbox').forEach(checkbox => {
+      checkbox.checked = false;
+    });
+    updateHomepageButton();
+  }
+  
+  function updateHomepageButton() {
+    const checkboxes = document.querySelectorAll('.gallery-checkbox:checked');
+    const homepageBtn = document.getElementById('homepage-btn');
+    
+    if (checkboxes.length > 6) {
+      homepageBtn.disabled = true;
+      homepageBtn.style.opacity = '0.5';
+      homepageBtn.style.cursor = 'not-allowed';
+      homepageBtn.value = `Too many selected (${checkboxes.length}/6)`;
+    } else if (checkboxes.length === 0) {
+      homepageBtn.disabled = true;
+      homepageBtn.style.opacity = '0.5';
+      homepageBtn.style.cursor = 'not-allowed';
+      homepageBtn.value = 'Select images first';
+    } else {
+      homepageBtn.disabled = false;
+      homepageBtn.style.opacity = '1';
+      homepageBtn.style.cursor = 'pointer';
+      homepageBtn.value = 'Set as Homepage Images';
+    }
+  }
+  
+  // Add event listeners to checkboxes
+  document.addEventListener('DOMContentLoaded', function() {
+    // Add change event listeners to all checkboxes
+    document.querySelectorAll('.gallery-checkbox').forEach(checkbox => {
+      checkbox.addEventListener('change', updateHomepageButton);
+      checkbox.addEventListener('click', updateHomepageButton);
+    });
+    updateHomepageButton(); // Initial state
+  });
+  
+  // Also update when checkboxes are clicked (backup listener)
+  document.addEventListener('click', function(e) {
+    if (e.target.classList.contains('gallery-checkbox')) {
+      setTimeout(updateHomepageButton, 10); // Small delay to ensure checkbox state has changed
+    }
+  });
+  
+  // Update bulk form with selected galleries
+  document.getElementById('bulk-form').addEventListener('submit', function(e) {
+    const checkboxes = document.querySelectorAll('.gallery-checkbox:checked');
+    if (checkboxes.length === 0) {
+      alert('Please select at least one image.');
+      e.preventDefault();
+      return false;
+    }
+    
+    // Clear any existing hidden inputs
+    const form = document.getElementById('bulk-form');
+    const existingInputs = form.querySelectorAll('input[name="selected_galleries[]"]');
+    existingInputs.forEach(input => input.remove());
+    
+    // Add hidden inputs for selected galleries
+    checkboxes.forEach(checkbox => {
+      const hiddenInput = document.createElement('input');
+      hiddenInput.type = 'hidden';
+      hiddenInput.name = 'selected_galleries[]';
+      hiddenInput.value = checkbox.value;
+      form.appendChild(hiddenInput);
+    });
+  });
+  
+  // Update homepage form with selected galleries  
+  document.getElementById('homepage-form').addEventListener('submit', function(e) {
+    const checkboxes = document.querySelectorAll('.gallery-checkbox:checked');
+    if (checkboxes.length === 0) {
+      alert('Please select at least one image.');
+      e.preventDefault();
+      return false;
+    }
+    if (checkboxes.length > 6) {
+      alert('Please select no more than 6 images for the homepage.');
+      e.preventDefault();
+      return false;
+    }
+    
+    // Clear any existing hidden inputs
+    const form = document.getElementById('homepage-form');
+    const existingInputs = form.querySelectorAll('input[name="selected_galleries[]"]');
+    existingInputs.forEach(input => input.remove());
+    
+    // Add hidden inputs for selected galleries
+    checkboxes.forEach(checkbox => {
+      const hiddenInput = document.createElement('input');
+      hiddenInput.type = 'hidden';
+      hiddenInput.name = 'selected_galleries[]';
+      hiddenInput.value = checkbox.value;
+      form.appendChild(hiddenInput);
+    });
+    
+    // Confirm replacement
+    if (!confirm(`This will replace all current homepage images with your ${checkboxes.length} selected image(s). Continue?`)) {
+      e.preventDefault();
+      return false;
+    }
+  });
+</script>

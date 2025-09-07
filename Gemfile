@@ -55,6 +55,9 @@ end
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data'
 
+# Image processing for Active Storage
+gem 'image_processing', '~> 1.2'
+
 
 
 

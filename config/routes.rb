@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'gallery', to: 'gallery#index'
   namespace :admin do
     get '/', to: 'dashboard#index'
     get 'login', to: 'sessions#new'
@@ -11,6 +12,10 @@ Rails.application.routes.draw do
     resources :settings, only: [:edit, :update]
     patch 'update_setting/:id', to: 'settings#update', as: 'update_setting'
     patch 'update_price/:id', to: 'prices#update', as: 'update_price'
+    
+    resources :galleries
+    patch 'update_gallery/:id', to: 'galleries#update', as: 'update_gallery'
+    patch 'bulk_galleries', to: 'galleries#bulk_action'
   end
   
   root 'pages#home'

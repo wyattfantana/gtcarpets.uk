@@ -1,0 +1,30 @@
+<h1>Upload Gallery Images</h1>
+<p>Upload photos of your work to add to the gallery</p>
+
+
+<div class="admin-form-container" style="max-width: 600px;">
+  <%= form_with model: [:admin, @gallery], local: true, multipart: true, class: 'admin-form' do |form| %>
+    <% if @gallery.errors.any? %>
+      <div style="color: red; margin-bottom: 1rem;">
+        <h4><%= pluralize(@gallery.errors.count, "error") %> prohibited this image from being saved:</h4>
+        <ul>
+          <% @gallery.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="form-group" style="margin-bottom: 2rem;">
+      <%= form.label :images, "Choose Image Files:" %>
+      <%= file_field_tag 'images[]', accept: "image/*", multiple: true, required: true,
+                         style: "width: 100%; padding: 15px; border: 2px dashed #ddd; border-radius: 8px; background: #fafafa;" %>
+      <small style="color: #666; margin-top: 0.5rem; display: block;">Select one or multiple image files (JPG, PNG, etc.). Hold Ctrl/Cmd to select multiple files at once.</small>
+    </div>
+
+    <div class="form-actions">
+      <%= submit_tag "Upload Images", class: "btn btn-success" %>
+      <%= link_to "Back to Gallery", admin_galleries_path, class: "btn" %>
+    </div>
+  <% end %>
+</div>
