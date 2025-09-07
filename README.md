@@ -67,17 +67,38 @@ The application will be available at `http://localhost:3000`
 - `PagesController` - Static pages (home, about, services)
 - `CarpetsController` - Price calculator functionality
 - `ContactsController` - Contact form handling
+- `Admin::ApplicationController` - Base admin controller with authentication
+- `Admin::DashboardController` - Unified admin dashboard
+- `Admin::PricesController` - Price management
+- `Admin::SettingsController` - Content management
+- `Admin::SessionsController` - Admin authentication
 
 ### Key Features Detail
 
+#### Admin Panel
+**URL**: `/admin/login` (Password: Set via `ADMIN_PASSWORD` environment variable)
+
+**Unified Dashboard Features**:
+- **Content Management**: Edit About Us and Our Expertise sections directly
+- **Price Management**: Update all calculator pricing with inline editing
+- **Calculator Toggle**: Enable/disable the entire price calculator
+- **Contact Management**: Update business contact information (name, phone, email)
+- **Reset to Defaults**: Safety feature to restore original pricing
+- **Responsive Design**: Mobile-friendly admin interface
+
+**Database-Driven Content**:
+- All website content stored in `Settings` model
+- All pricing stored in `Price` model with fallback values
+- Changes reflect immediately on the live website
+
 #### Price Calculator
-Located in `CarpetsController#price_calculator`, calculates costs for:
-- Carpet fitting: £7.50/sqm
-- Vinyl fitting: £10.50/sqm
-- Additional materials (gripper rods, underlay, spray adhesive)
-- Door trims: £9 each
-- Plyboarding for vinyl: £10.50/sqm
-- Minimum charge: £150
+Located in `CarpetsController#price_calculator`, calculates costs using database values:
+- Carpet fitting: Configurable (default £7.50/sqm)
+- Vinyl fitting: Configurable (default £10.50/sqm) 
+- Additional materials: All pricing configurable through admin panel
+- Door trims: Configurable (default £9 each)
+- Plyboarding for vinyl: Configurable (default £10.50/sqm)
+- Minimum charge: Configurable (default £150)
 
 #### Email Integration
 - SendGrid integration for contact forms
@@ -102,24 +123,51 @@ rails assets:precompile
 
 ## Deployment
 
+### Production Setup
+1. **Deploy to hosting platform** (Render, Heroku, etc.)
+2. **Set environment variables**:
+   - `ADMIN_PASSWORD` - Admin panel login password
+   - `SENDGRID_API_KEY` - For email functionality
+   - `RECAPTCHA_SITE_KEY` - For contact form protection
+
+3. **Run database setup**:
+   ```bash
+   bundle exec rails db:migrate
+   bundle exec rails db:seed
+   ```
+
+### Post-Deployment
+- **Admin Access**: `https://yoursite.com/admin/login`
+- **Database Seeding**: Creates initial pricing and content settings
+- **Content Management**: All website content becomes editable via admin panel
+
 The application is configured for deployment with:
 - Puma web server
 - Environment variables for configuration
 - SendGrid for email services
+- SQLite database (easily replaceable with PostgreSQL for production)
 
 ## Project Structure
 
 ```
 app/
 ├── controllers/          # Application controllers
+│   └── admin/           # Admin panel controllers
 ├── models/              # Data models
+│   ├── price.rb         # Price management model
+│   └── setting.rb       # Content management model
 ├── views/               # View templates
+│   ├── admin/           # Admin panel views
+│   │   └── dashboard/   # Unified admin dashboard
 │   ├── carpets/         # Price calculator views
 │   ├── contact_mailer/  # Email templates
+│   ├── layouts/         # Layouts including admin layout
 │   └── shared/          # Shared partials (header, footer, hero)
 ├── assets/              # Stylesheets, JavaScript, images
 config/                  # Application configuration
 db/                      # Database files and migrations
+│   ├── migrate/         # Database migrations
+│   └── seeds.rb         # Initial data seeding
 public/                  # Static assets
 ```
 
