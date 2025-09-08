@@ -53,7 +53,7 @@ For durability and style, our vinyl flooring options are unmatched. Ideal for ki
             <img src="<%= gallery_item.display_image_url %>" 
                  alt="Gallery Image" 
                  style="width: 100%; height: 200px; object-fit: cover;" 
-                 onerror="this.src='https://via.placeholder.com/400x200/f8f9fa/999999?text=Image+Not+Found'">
+                 onerror="this.style.display='none'">
           </div>
         <% end %>
       </div>
@@ -80,22 +80,23 @@ For durability and style, our vinyl flooring options are unmatched. Ideal for ki
   </div>
 
   <script>
-    const homepageGalleryImages = [
+    // Turbolinks-safe variable declarations
+    window.homepageGalleryImages = window.homepageGalleryImages || [
       <% Gallery.featured_galleries.each_with_index do |gallery_item, index| %>
         '<%= gallery_item.display_image_url %>'<%= index < Gallery.featured_galleries.count - 1 ? ',' : '' %>
       <% end %>
     ];
     
-    let currentHomepageImageIndex = 0;
+    window.currentHomepageImageIndex = window.currentHomepageImageIndex || 0;
     
     function openHomepageLightbox(index) {
-      currentHomepageImageIndex = index;
+      window.currentHomepageImageIndex = index;
       const lightbox = document.getElementById('homepage-lightbox');
       const lightboxImg = document.getElementById('homepage-lightbox-img');
       const counter = document.getElementById('homepage-image-counter');
       
-      lightboxImg.src = homepageGalleryImages[currentHomepageImageIndex];
-      counter.textContent = `${currentHomepageImageIndex + 1} / ${homepageGalleryImages.length}`;
+      lightboxImg.src = window.homepageGalleryImages[window.currentHomepageImageIndex];
+      counter.textContent = `${window.currentHomepageImageIndex + 1} / ${window.homepageGalleryImages.length}`;
       lightbox.style.display = 'block';
       document.body.style.overflow = 'hidden'; // Prevent scrolling
     }
@@ -106,20 +107,20 @@ For durability and style, our vinyl flooring options are unmatched. Ideal for ki
     }
     
     function changeHomepageImage(direction) {
-      currentHomepageImageIndex += direction;
+      window.currentHomepageImageIndex += direction;
       
       // Handle wraparound
-      if (currentHomepageImageIndex >= homepageGalleryImages.length) {
-        currentHomepageImageIndex = 0;
-      } else if (currentHomepageImageIndex < 0) {
-        currentHomepageImageIndex = homepageGalleryImages.length - 1;
+      if (window.currentHomepageImageIndex >= window.homepageGalleryImages.length) {
+        window.currentHomepageImageIndex = 0;
+      } else if (window.currentHomepageImageIndex < 0) {
+        window.currentHomepageImageIndex = window.homepageGalleryImages.length - 1;
       }
       
       const lightboxImg = document.getElementById('homepage-lightbox-img');
       const counter = document.getElementById('homepage-image-counter');
       
-      lightboxImg.src = homepageGalleryImages[currentHomepageImageIndex];
-      counter.textContent = `${currentHomepageImageIndex + 1} / ${homepageGalleryImages.length}`;
+      lightboxImg.src = window.homepageGalleryImages[window.currentHomepageImageIndex];
+      counter.textContent = `${window.currentHomepageImageIndex + 1} / ${window.homepageGalleryImages.length}`;
     }
     
     // Keyboard navigation for homepage lightbox

@@ -1,24 +1,29 @@
 <header>
     <div class="container header-container">
         <!-- Logo as a link to the home page -->
-        <a href="/" class="header-logo">
+        <a href="/" class="header-logo" onclick="document.querySelector('.nav-menu').classList.remove('active'); document.querySelector('.mobile-menu-toggle').classList.remove('active'); document.body.classList.remove('menu-open'); window.location.href = '/'; return false;">
             <%= image_tag "logo.png", alt: "GT Carpets Logo" %>
         </a>
         <!-- Navigation -->
         <nav class="header-nav">
-            <div class="mobile-menu-toggle">
+            <div class="mobile-menu-toggle" onclick="
+                this.classList.toggle('active');
+                document.querySelector('.nav-menu').classList.toggle('active');
+                document.body.classList.toggle('menu-open');
+            ">
                 <span></span>
                 <span></span>
                 <span></span>
             </div>
             <ul class="nav-menu">
                 <div class="mobile-menu-header">
-                    <%= link_to root_path, class: "mobile-logo-link", onclick: "document.querySelector('.nav-menu').classList.remove('active'); return true;" do %>
+                    <div class="mobile-logo-link" onclick="document.querySelector('.nav-menu').classList.remove('active'); document.querySelector('.mobile-menu-toggle').classList.remove('active'); document.body.classList.remove('menu-open');">
                         <%= image_tag "logo.png", alt: "GT Carpets Logo", class: "mobile-logo" %>
-                    <% end %>
+                    </div>
                 </div>
                 <li><%= link_to "About", root_path(anchor: 'about') %></li>
                 <li><%= link_to "Services", root_path(anchor: 'services') %></li>
+                <li><%= link_to "Gallery", gallery_path %></li>
                 <li><%= link_to "Price Calculator", root_path(anchor: 'calculator') %></li>
                 <li><%= link_to "Contact", root_path(anchor: 'contact') %></li>
                 <div class="mobile-menu-footer">

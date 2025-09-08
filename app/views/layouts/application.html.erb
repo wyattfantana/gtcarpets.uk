@@ -48,60 +48,17 @@
     <%= render 'shared/footer' %>
     
     <script>
-        // Improved mobile menu toggle
-        document.addEventListener('DOMContentLoaded', function() {
-            const menuToggle = document.querySelector('.mobile-menu-toggle');
-            const navMenu = document.querySelector('.nav-menu');
-            
-            if (menuToggle) {
-                // Toggle menu state when clicking the hamburger icon
-                menuToggle.addEventListener('click', function(e) {
-                    e.stopPropagation();
-                    this.classList.toggle('active');
-                    navMenu.classList.toggle('active');
-                    document.body.classList.toggle('menu-open');
-                });
-                
-                // Close menu when clicking on a link
-                const navLinks = document.querySelectorAll('.nav-menu li a');
-                navLinks.forEach(link => {
-                    link.addEventListener('click', function() {
-                        menuToggle.classList.remove('active');
-                        navMenu.classList.remove('active');
-                        document.body.classList.remove('menu-open');
-                    });
-                });
-                
-                // Close menu when clicking outside
-                document.addEventListener('click', function(e) {
-                    if (navMenu.classList.contains('active') && 
-                        !navMenu.contains(e.target) && 
-                        e.target !== menuToggle && 
-                        !menuToggle.contains(e.target)) {
-                        menuToggle.classList.remove('active');
-                        navMenu.classList.remove('active');
-                        document.body.classList.remove('menu-open');
-                    }
-                });
-                
-                // Prevent clicks inside the menu from closing it
-                navMenu.addEventListener('click', function(e) {
-                    e.stopPropagation();
-                });
-            }
-            
-            // Script to hide flash messages after 5 seconds
-            setTimeout(function() {
-                const flashMessages = document.querySelectorAll('.flash');
-                flashMessages.forEach(function(message) {
-                    message.style.opacity = '0';
-                    message.style.transform = 'translateY(-20px)';
-                    setTimeout(function() {
-                        message.style.display = 'none';
-                    }, 500);
-                });
-            }, 5000);
-        });
+        // Just hide flash messages
+        setTimeout(function() {
+            const flashMessages = document.querySelectorAll('.flash');
+            flashMessages.forEach(function(message) {
+                message.style.opacity = '0';
+                message.style.transform = 'translateY(-20px)';
+                setTimeout(function() {
+                    message.style.display = 'none';
+                }, 500);
+            });
+        }, 5000);
     </script>
 </body>
 </html>
