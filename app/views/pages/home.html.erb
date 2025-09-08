@@ -287,24 +287,32 @@ For durability and style, our vinyl flooring options are unmatched. Ideal for ki
     <p>Ready to get started? Contact us today for a free, no-obligation consultation!</p>
     
     <%= form_with model: @contact, url: contacts_path, id: "contact-form" do |form| %>
+      <!-- Honeypot field - hidden from users but visible to bots -->
+      <div style="position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden;">
+        <%= text_field_tag :website, "", placeholder: "Leave this field empty", tabindex: -1, autocomplete: "off" %>
+      </div>
+      
+      <!-- Form timestamp for time-based validation -->
+      <%= hidden_field_tag :form_timestamp, Time.current.to_i %>
+      
       <div>
         <%= form.label :name, "Name:" %>
-        <%= form.text_field :name, required: true, placeholder: "Your Name", class: "form-control" %>
+        <%= form.text_field :name, required: true, placeholder: "Your Name", class: "form-control", maxlength: 100 %>
       </div>
       <div>
         <%= form.label :email, "Email:" %>
-        <%= form.email_field :email, required: true, placeholder: "Your Email", class: "form-control" %>
+        <%= form.email_field :email, required: true, placeholder: "Your Email", class: "form-control", maxlength: 100 %>
       </div>
       <div>
         <%= form.label :message, "Message:" %>
-        <%= form.text_area :message, rows: 4, required: true, placeholder: "How can we help you?", class: "form-control" %>
+        <%= form.text_area :message, rows: 4, required: true, placeholder: "How can we help you? (Please provide details about your carpet or vinyl needs)", class: "form-control", maxlength: 2000, minlength: 10 %>
       </div>
       
       <!-- reCAPTCHA widget -->
       <div class="g-recaptcha" data-sitekey="<%= ENV['RECAPTCHA_SITE_KEY'] %>"></div>
       
       <div class="text-center">
-        <%= form.submit "Send Message", class: "btn" %>
+        <%= form.submit "Send Message", class: "btn", id: "contact-submit-btn" %>
       </div>
     <% end %>
   </div>

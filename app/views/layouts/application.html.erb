@@ -48,7 +48,7 @@
     <%= render 'shared/footer' %>
     
     <script>
-        // Just hide flash messages
+        // Hide flash messages
         setTimeout(function() {
             const flashMessages = document.querySelectorAll('.flash');
             flashMessages.forEach(function(message) {
@@ -59,6 +59,57 @@
                 }, 500);
             });
         }, 5000);
+        
+        // Anti-spam contact form protection
+        document.addEventListener('DOMContentLoaded', function() {
+            const contactForm = document.getElementById('contact-form');
+            const submitBtn = document.getElementById('contact-submit-btn');
+            
+            if (contactForm) {
+                let formInteracted = false;
+                let formStartTime = Date.now();
+                
+                // Track form interaction
+                contactForm.addEventListener('input', function() {
+                    formInteracted = true;
+                });
+                
+                // Prevent rapid submission
+                contactForm.addEventListener('submit', function(e) {
+                    const timeSinceLoad = (Date.now() - formStartTime) / 1000;
+                    
+                    // Must wait at least 3 seconds and interact with form
+                    if (timeSinceLoad < 3) {
+                        e.preventDefault();
+                        alert('Please take your time to fill out the form properly.');
+                        return false;
+                    }
+                    
+                    if (!formInteracted) {
+                        e.preventDefault();
+                        alert('Please fill out the form before submitting.');
+                        return false;
+                    }
+                    
+                    // Disable submit button to prevent double-submission
+                    if (submitBtn) {
+                        submitBtn.disabled = true;
+                        submitBtn.value = 'Sending...';
+                    }
+                });
+                
+                // Additional honeypot protection - monitor honeypot field
+                const honeypotField = document.querySelector('input[name="website"]');
+                if (honeypotField) {
+                    // If honeypot gets filled, disable form
+                    honeypotField.addEventListener('input', function() {
+                        if (this.value !== '') {
+                            contactForm.style.display = 'none';
+                        }
+                    });
+                }
+            }
+        });
     </script>
 </body>
 </html>
