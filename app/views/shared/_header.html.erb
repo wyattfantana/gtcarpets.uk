@@ -10,6 +10,11 @@
                 this.classList.toggle('active');
                 document.querySelector('.nav-menu').classList.toggle('active');
                 document.body.classList.toggle('menu-open');
+                
+                // If opening menu and we're on a fragment URL, reset to base URL
+                if (this.classList.contains('active') && window.location.hash) {
+                    history.replaceState(null, null, window.location.pathname);
+                }
             ">
                 <span></span>
                 <span></span>

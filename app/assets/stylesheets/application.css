@@ -975,7 +975,7 @@ select.form-control {
   align-items: center;
   gap: 15px;
   padding: 0;
-  margin-top: 50px;
+  margin-top: 30px;
 }
 
 .mobile-action-btn {
@@ -1020,12 +1020,13 @@ select.form-control {
     height: 100vh;
     background-color: white;
     flex-direction: column;
-    padding: 120px 0 40px;
+    padding: 125px 0 30px;
     transition: right 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     box-shadow: -5px 0 15px rgba(0,0,0,0.1);
     z-index: 1000;
     justify-content: flex-start;
     align-items: center;
+    overflow-y: auto;
   }
   
   .header-nav .nav-menu.active {
@@ -1033,7 +1034,7 @@ select.form-control {
   }
   
   .header-nav .nav-menu li {
-    padding: 25px 0;
+    padding: 20px 0;
     width: 100%;
     text-align: center;
     max-width: 250px;

@@ -128,6 +128,80 @@
                 }
             }
         });
+        
+        // Mobile menu swipe functionality - reinitialize on each interaction
+        function initSwipeHandlers() {
+            let startX = 0;
+            let startY = 0;
+            
+            const navMenu = document.querySelector('.nav-menu');
+            const mobileToggle = document.querySelector('.mobile-menu-toggle');
+            
+            if (!navMenu || !mobileToggle) return;
+            
+            // Remove existing listeners to prevent duplicates
+            navMenu.removeEventListener('touchstart', navMenu.swipeStartHandler);
+            navMenu.removeEventListener('touchend', navMenu.swipeEndHandler);
+            document.removeEventListener('click', document.outsideClickHandler);
+            
+            // Touch start handler
+            navMenu.swipeStartHandler = function(e) {
+                startX = e.touches[0].clientX;
+                startY = e.touches[0].clientY;
+            };
+            
+            // Touch end handler
+            navMenu.swipeEndHandler = function(e) {
+                if (!startX || !startY) return;
+                
+                const endX = e.changedTouches[0].clientX;
+                const endY = e.changedTouches[0].clientY;
+                
+                const diffX = startX - endX;
+                const diffY = startY - endY;
+                
+                // Check if it's a horizontal swipe (more horizontal than vertical)
+                if (Math.abs(diffX) > Math.abs(diffY)) {
+                    // Swipe right to left (close menu) - only if menu is open
+                    if (diffX > 50 && navMenu.classList.contains('active')) {
+                        navMenu.classList.remove('active');
+                        mobileToggle.classList.remove('active');
+                        document.body.classList.remove('menu-open');
+                    }
+                }
+                
+                // Reset values
+                startX = 0;
+                startY = 0;
+            };
+            
+            // Outside click handler
+            document.outsideClickHandler = function(e) {
+                if (navMenu.classList.contains('active') && 
+                    !navMenu.contains(e.target) && 
+                    !mobileToggle.contains(e.target)) {
+                    navMenu.classList.remove('active');
+                    mobileToggle.classList.remove('active');
+                    document.body.classList.remove('menu-open');
+                }
+            };
+            
+            // Attach event listeners
+            navMenu.addEventListener('touchstart', navMenu.swipeStartHandler, { passive: true });
+            navMenu.addEventListener('touchend', navMenu.swipeEndHandler, { passive: true });
+            document.addEventListener('click', document.outsideClickHandler);
+        }
+        
+        // Initialize swipe handlers on page load
+        initSwipeHandlers();
+        
+        // Re-initialize when menu is opened (in case of navigation changes)
+        const mobileToggle = document.querySelector('.mobile-menu-toggle');
+        if (mobileToggle) {
+            mobileToggle.addEventListener('click', function() {
+                setTimeout(initSwipeHandlers, 100); // Small delay to ensure menu is open
+            });
+        }
     </script>
 </body>
 </html>
