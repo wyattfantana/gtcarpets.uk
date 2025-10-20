@@ -1,0 +1,59 @@
+<h1>Edit Link</h1>
+
+<div style="margin-bottom: 2rem;">
+  <%= link_to "Back to Links", admin_links_path, class: "btn" %>
+</div>
+
+<div style="max-width: 600px;">
+  <%= form_with model: [:admin, @link], local: true do |form| %>
+    <% if @link.errors.any? %>
+      <div style="color: red; margin-bottom: 1rem;">
+        <h4><%= pluralize(@link.errors.count, "error") %> prohibited this link from being saved:</h4>
+        <ul>
+          <% @link.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div style="margin-bottom: 1rem;">
+      <%= form.label :title, style: "display: block; margin-bottom: 0.5rem; font-weight: bold;" %>
+      <%= form.text_field :title, style: "width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;", placeholder: "e.g., Google Business" %>
+    </div>
+
+    <div style="margin-bottom: 1rem;">
+      <%= form.label :description, style: "display: block; margin-bottom: 0.5rem; font-weight: bold;" %>
+      <%= form.text_field :description, style: "width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;", placeholder: "e.g., Our Google business page" %>
+    </div>
+
+    <div style="margin-bottom: 1rem;">
+      <%= form.label :url, style: "display: block; margin-bottom: 0.5rem; font-weight: bold;" %>
+      <%= form.url_field :url, style: "width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;", placeholder: "e.g., https://example.com or /gallery or tel:+44123456789" %>
+      <small style="color: #666;">Can be a full URL, relative path, or special links like tel:, mailto:, etc.</small>
+    </div>
+
+    <div style="margin-bottom: 1rem;">
+      <%= form.label :icon, style: "display: block; margin-bottom: 0.5rem; font-weight: bold;" %>
+      <%= form.text_field :icon, style: "width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;", placeholder: "e.g., 🏢 (emoji icon)" %>
+      <small style="color: #666;">Use an emoji that represents this link</small>
+    </div>
+
+    <div style="margin-bottom: 1rem;">
+      <%= form.label :position, style: "display: block; margin-bottom: 0.5rem; font-weight: bold;" %>
+      <%= form.number_field :position, style: "width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;", min: 1 %>
+      <small style="color: #666;">Order in which this link appears (1 = first, 2 = second, etc.)</small>
+    </div>
+
+    <div style="margin-bottom: 1rem;">
+      <%= form.check_box :enabled, style: "margin-right: 0.5rem;" %>
+      <%= form.label :enabled, "Enabled", style: "font-weight: bold;" %>
+      <small style="color: #666; display: block;">Uncheck to hide this link without deleting it</small>
+    </div>
+
+    <div style="margin-top: 2rem;">
+      <%= form.submit "Update Link", class: "btn btn-success" %>
+      <%= link_to "Cancel", admin_links_path, class: "btn" %>
+    </div>
+  <% end %>
+</div>

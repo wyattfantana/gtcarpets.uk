@@ -1,0 +1,213 @@
+<div style="text-align: center; margin-bottom: 1.5rem;">
+  <h1 style="margin-bottom: 0.5rem;">🔗 Manage Links</h1>
+  <p style="color: #666; margin-bottom: 1.5rem;">Manage the links that appear on your digital business card page</p>
+
+  <div style="display: flex; justify-content: center; gap: 0.75rem; flex-wrap: wrap;">
+    <%= link_to "Add New Link", new_admin_link_path, class: "btn", style: "background: #007bff; border-color: #007bff; color: white; padding: 0.75rem 1.5rem; font-size: 1rem; min-width: 140px;" %>
+    <%= link_to "View Links Page", links_path, class: "btn", target: "_blank", style: "background: #007bff; border-color: #007bff; color: white; padding: 0.75rem 1.5rem; font-size: 1rem; min-width: 140px;" %>
+    <%= link_to "← Back to Dashboard", admin_path, class: "btn", style: "background: #007bff; border-color: #007bff; color: white; padding: 0.75rem 1.5rem; font-size: 1rem; min-width: 140px;" %>
+  </div>
+</div>
+
+<% if @links.any? %>
+  <div style="max-width: 1200px; margin: 0 auto;">
+    <div class="table-responsive">
+      <table class="table table-striped" style="background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+        <thead style="background: #e67e22; color: white;">
+          <tr>
+            <th width="30" style="text-align: center; padding: 12px;">
+              <input type="checkbox" id="select-all-header" onchange="toggleAllCheckboxes(this)">
+            </th>
+            <th style="text-align: center; padding: 12px; font-weight: 600;">Position</th>
+            <th style="text-align: center; padding: 12px; font-weight: 600;">Icon</th>
+            <th style="padding: 12px; font-weight: 600;">Title</th>
+            <th style="padding: 12px; font-weight: 600;">Description</th>
+            <th style="padding: 12px; font-weight: 600;">URL</th>
+            <th style="text-align: center; padding: 12px; font-weight: 600;">Status</th>
+            <th style="text-align: center; padding: 12px; font-weight: 600;">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @links.each do |link| %>
+            <tr style="border-bottom: 1px solid #eee;">
+              <td style="text-align: center; padding: 12px;">
+                <input type="checkbox" name="link_ids[]" value="<%= link.id %>" class="link-checkbox">
+              </td>
+              <td style="text-align: center; padding: 12px; font-weight: 600; color: #e67e22;"><%= link.position %></td>
+              <td style="text-align: center; padding: 12px; font-size: 1.5em;"><%= link.icon %></td>
+              <td style="padding: 12px; font-weight: 600;"><%= link.title %></td>
+              <td style="padding: 12px; color: #666;"><%= link.description %></td>
+              <td style="padding: 12px;">
+                <% if link.url.start_with?('http') %>
+                  <%= link_to link.url, link.url, target: '_blank', style: 'word-break: break-all; color: #007bff; text-decoration: none;' %>
+                <% else %>
+                  <code style="background: #f8f9fa; padding: 2px 6px; border-radius: 3px; font-size: 0.9em;"><%= link.url %></code>
+                <% end %>
+              </td>
+              <td style="text-align: center; padding: 12px;">
+                <% if link.enabled? %>
+                  <span class="badge badge-success">✓ Enabled</span>
+                <% else %>
+                  <span class="badge badge-secondary">✗ Disabled</span>
+                <% end %>
+              </td>
+              <td style="text-align: center; padding: 12px;">
+                <div style="display: flex; gap: 0.5rem; justify-content: center;">
+                  <%= link_to "✏️ Edit", edit_admin_link_path(link), class: "btn btn-small",
+                      style: "background: #007bff; border-color: #007bff; color: white;" %>
+                  <%= link_to "🗑️ Delete", admin_link_path(link), method: :delete,
+                              class: "btn btn-small",
+                              style: "background: #dc3545; border-color: #dc3545; color: white;",
+                              data: { confirm: 'Are you sure?' } %>
+                </div>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Bulk Actions Section -->
+    <div style="background: #f8f9fa; padding: 1rem; border-radius: 8px; margin-top: 1rem; text-align: center;">
+      <div style="display: flex; justify-content: center; gap: 0.75rem; flex-wrap: wrap;">
+        <button type="button" onclick="selectAll()" class="btn btn-small" style="background: #007bff; border-color: #007bff; color: white;">Select All</button>
+        <button type="button" onclick="selectNone()" class="btn btn-small" style="background: #6c757d; border-color: #6c757d; color: white;">Clear Selection</button>
+
+        <%= form_with url: admin_bulk_links_path, method: :patch, local: true, id: 'enable-form', style: "display: inline;" do |form| %>
+          <%= hidden_field_tag :bulk_action, 'enable' %>
+          <%= submit_tag "✓ Enable Selected", class: "btn btn-small", style: "background: #28a745; border-color: #28a745; color: white;" %>
+        <% end %>
+
+        <%= form_with url: admin_bulk_links_path, method: :patch, local: true, id: 'disable-form', style: "display: inline;" do |form| %>
+          <%= hidden_field_tag :bulk_action, 'disable' %>
+          <%= submit_tag "⏸ Disable Selected", class: "btn btn-small", style: "background: #ffc107; border-color: #ffc107; color: #212529;" %>
+        <% end %>
+
+        <%= form_with url: admin_bulk_links_path, method: :patch, local: true, id: 'bulk-form', style: "display: inline;" do |form| %>
+          <%= hidden_field_tag :bulk_action, 'delete' %>
+          <%= submit_tag "🗑 Delete Selected", class: "btn btn-small", style: "background: #dc3545; border-color: #dc3545; color: white;", data: { confirm: 'Are you sure?' } %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+<% else %>
+  <div style="text-align: center; padding: 4rem; background: white; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); max-width: 600px; margin: 0 auto;">
+    <div style="font-size: 3rem; margin-bottom: 1rem;">🔗</div>
+    <h3 style="color: #333; margin-bottom: 1rem;">No Links Created Yet</h3>
+    <p style="color: #666; margin-bottom: 2rem;">Start building your digital business card by adding your first link.</p>
+    <%= link_to "Add Your First Link", new_admin_link_path, class: "btn btn-success" %>
+  </div>
+<% end %>
+
+<style>
+  body {
+    background-color: #f8f9fa;
+  }
+
+  .badge {
+    padding: 0.4em 0.8em;
+    font-size: 0.8em;
+    font-weight: 600;
+    border-radius: 20px;
+    display: inline-block;
+  }
+  .badge-success {
+    color: #fff;
+    background-color: #28a745;
+  }
+  .badge-secondary {
+    color: #fff;
+    background-color: #6c757d;
+  }
+  .btn-small {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.85rem;
+    border-radius: 4px;
+  }
+  .table th, .table td {
+    vertical-align: middle;
+  }
+  .table {
+    margin-bottom: 0;
+  }
+  .btn {
+    font-weight: 500;
+    border-radius: 6px;
+    padding: 0.6rem 1.2rem;
+    transition: all 0.3s ease;
+  }
+  .btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+  }
+</style>
+
+<script>
+function selectAll() {
+  document.querySelectorAll('.link-checkbox').forEach(checkbox => {
+    checkbox.checked = true;
+  });
+  updateBulkFormCheckboxes();
+}
+
+function selectNone() {
+  document.querySelectorAll('.link-checkbox').forEach(checkbox => {
+    checkbox.checked = false;
+  });
+  document.getElementById('select-all-header').checked = false;
+  updateBulkFormCheckboxes();
+}
+
+function toggleAllCheckboxes(headerCheckbox) {
+  const checkboxes = document.querySelectorAll('.link-checkbox');
+  checkboxes.forEach(checkbox => {
+    checkbox.checked = headerCheckbox.checked;
+  });
+  updateBulkFormCheckboxes();
+}
+
+function updateBulkFormCheckboxes() {
+  const checkedBoxes = document.querySelectorAll('.link-checkbox:checked');
+
+  // Update enable form
+  const enableForm = document.getElementById('enable-form');
+  enableForm.innerHTML = '<input type="hidden" name="bulk_action" value="enable"><input type="submit" value="Enable Selected" class="btn btn-primary">';
+  checkedBoxes.forEach(checkbox => {
+    const hiddenInput = document.createElement('input');
+    hiddenInput.type = 'hidden';
+    hiddenInput.name = 'link_ids[]';
+    hiddenInput.value = checkbox.value;
+    enableForm.appendChild(hiddenInput);
+  });
+
+  // Update disable form
+  const disableForm = document.getElementById('disable-form');
+  disableForm.innerHTML = '<input type="hidden" name="bulk_action" value="disable"><input type="submit" value="Disable Selected" class="btn btn-warning">';
+  checkedBoxes.forEach(checkbox => {
+    const hiddenInput = document.createElement('input');
+    hiddenInput.type = 'hidden';
+    hiddenInput.name = 'link_ids[]';
+    hiddenInput.value = checkbox.value;
+    disableForm.appendChild(hiddenInput);
+  });
+
+  // Update bulk form
+  const bulkForm = document.getElementById('bulk-form');
+  bulkForm.innerHTML = '<input type="hidden" name="bulk_action" value="delete"><input type="submit" value="Delete Selected" class="btn btn-danger" data-confirm="Are you sure?">';
+  checkedBoxes.forEach(checkbox => {
+    const hiddenInput = document.createElement('input');
+    hiddenInput.type = 'hidden';
+    hiddenInput.name = 'link_ids[]';
+    hiddenInput.value = checkbox.value;
+    bulkForm.appendChild(hiddenInput);
+  });
+}
+
+// Update forms when individual checkboxes change
+document.addEventListener('change', function(e) {
+  if (e.target.classList.contains('link-checkbox')) {
+    updateBulkFormCheckboxes();
+  }
+});
+</script>

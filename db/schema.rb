@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_09_07_190601) do
+ActiveRecord::Schema[7.0].define(version: 2025_09_07_190602) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -49,6 +49,19 @@ ActiveRecord::Schema[7.0].define(version: 2025_09_07_190601) do
     t.datetime "updated_at", null: false
     t.boolean "featured", default: false
     t.index ["active", "position"], name: "index_galleries_on_active_and_position"
+  end
+
+  create_table "links", force: :cascade do |t|
+    t.string "title", null: false
+    t.string "description"
+    t.string "url", null: false
+    t.string "icon", null: false
+    t.integer "position", null: false
+    t.boolean "enabled", default: true, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["enabled"], name: "index_links_on_enabled"
+    t.index ["position"], name: "index_links_on_position", unique: true
   end
 
   create_table "prices", force: :cascade do |t|

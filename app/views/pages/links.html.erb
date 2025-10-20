@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GT Carpets - Quick Links</title>
+    <meta name="description" content="Quick access to GT Carpets services - Gallery, Price Calculator, Contact & More">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph / Social Media -->
+    <meta property="og:title" content="GT Carpets - Quick Links">
+    <meta property="og:description" content="Professional carpet and vinyl fitting services. Quick access to our gallery, price calculator, and contact information.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="<%= request.original_url %>">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="GT Carpets - Quick Links">
+    <meta name="twitter:description" content="Professional carpet and vinyl fitting services. Quick access to our gallery, price calculator, and contact information.">
+
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+
+    <style>
+        /* Links page specific styles */
+        .links-page {
+            min-height: 100vh;
+            background-image: url('/assets/signal-2025-04-07-210458_002.jpeg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            padding: 20px;
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+            position: relative;
+        }
+
+        .links-page::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            background-color: rgba(255, 255, 255, 0.75);
+            z-index: 1;
+        }
+
+        .links-container {
+            max-width: 400px;
+            margin: 0 auto;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .links-header {
+            margin-bottom: 40px;
+            padding-top: 20px;
+        }
+
+        .links-logo {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            border: 4px solid white;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+            overflow: hidden;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .links-logo img {
+            width: 80%;
+            height: 80%;
+            object-fit: contain;
+            padding: 0;
+        }
+
+        .links-title {
+            color: #333;
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            text-shadow: none;
+        }
+
+        .links-subtitle {
+            color: #666;
+            font-size: 16px;
+            font-weight: 400;
+            margin-bottom: 0;
+        }
+
+        .links-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-bottom: 40px;
+        }
+
+        .link-item {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            text-decoration: none;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .link-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+            text-decoration: none;
+            color: #333;
+        }
+
+        .link-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: left 0.5s;
+        }
+
+        .link-item:hover::before {
+            left: 100%;
+        }
+
+        .link-icon {
+            width: 48px;
+            height: 48px;
+            background: #e67e22;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+
+        .link-content {
+            flex: 1;
+            text-align: left;
+        }
+
+        .link-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: #333;
+        }
+
+        .link-description {
+            font-size: 14px;
+            color: #666;
+            margin: 0;
+        }
+
+        .contact-links {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        .contact-btn {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            font-size: 24px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .contact-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+            color: white;
+            text-decoration: none;
+        }
+
+        .phone-btn {
+            background: #0056b3;
+        }
+
+        .whatsapp-btn {
+            background: #25D366;
+        }
+
+        .email-btn {
+            background: #d9534f;
+        }
+
+        .links-footer {
+            color: rgba(255,255,255,0.8);
+            font-size: 14px;
+            text-align: center;
+        }
+
+        .qr-section {
+            background: rgba(255,255,255,0.9);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(0,0,0,0.1);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .qr-title {
+            color: #333;
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .qr-code {
+            background: white;
+            padding: 15px;
+            border-radius: 12px;
+            display: inline-block;
+            margin-bottom: 15px;
+        }
+
+        .qr-description {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 480px) {
+            .links-page {
+                padding: 15px;
+            }
+
+            .links-container {
+                max-width: 100%;
+            }
+
+            .links-logo {
+                width: 100px;
+                height: 100px;
+            }
+
+            .links-title {
+                font-size: 22px;
+            }
+
+            .link-item {
+                padding: 16px;
+            }
+
+            .link-icon {
+                width: 40px;
+                height: 40px;
+                font-size: 20px;
+            }
+
+            .link-title {
+                font-size: 16px;
+            }
+        }
+
+    </style>
+
+    <!-- PWA Meta Tags -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="GT Carpets">
+    <meta name="theme-color" content="#667eea">
+    <meta name="mobile-web-app-capable" content="yes">
+
+    <!-- Manifest for PWA and Google Wallet compatibility -->
+    <link rel="manifest" href="/manifest.json">
+
+    <!-- Additional icons for various devices -->
+    <link rel="apple-touch-icon" sizes="180x180" href="<%= asset_path('logo.png') %>">
+    <link rel="icon" type="image/png" sizes="32x32" href="<%= asset_path('logo.png') %>">
+    <link rel="icon" type="image/png" sizes="16x16" href="<%= asset_path('logo.png') %>">
+
+    <!-- Microsoft application config -->
+    <meta name="msapplication-TileColor" content="#667eea">
+    <meta name="msapplication-config" content="/browserconfig.xml">
+</head>
+
+<body class="links-page">
+    <div class="links-container">
+        <!-- Header -->
+        <div class="links-header">
+            <div class="links-logo">
+                <%= image_tag "logo.png", alt: "GT Carpets Logo" %>
+            </div>
+            <h1 class="links-title">GT Carpets</h1>
+            <p class="links-subtitle">Professional Carpet & Vinyl Fitting</p>
+        </div>
+
+
+        <!-- Main Links -->
+        <div class="links-list">
+            <% @links.each do |link| %>
+                <%= link_to link.url, class: "link-item", target: (link.url.start_with?('http') ? '_blank' : nil) do %>
+                    <div class="link-icon"><%= link.icon %></div>
+                    <div class="link-content">
+                        <div class="link-title"><%= link.title %></div>
+                        <div class="link-description"><%= link.description %></div>
+                    </div>
+                <% end %>
+            <% end %>
+        </div>
+
+        <!-- QR Code Section -->
+        <div class="qr-section">
+            <div class="qr-code">
+                <!-- QR code will be generated here -->
+                <div id="qrcode" style="text-align: center;"></div>
+            </div>
+        </div>
+
+        <!-- Quick Contact Buttons -->
+        <div class="contact-links">
+            <%= link_to "tel:+447494789381", class: "contact-btn phone-btn", title: "Call Us" do %>
+                📞
+            <% end %>
+            <%= link_to "https://wa.me/447494789381", class: "contact-btn whatsapp-btn", title: "WhatsApp", target: "_blank" do %>
+                💬
+            <% end %>
+            <%= link_to "mailto:gareth@gtcarpets.uk", class: "contact-btn email-btn", title: "Email Us" do %>
+                📧
+            <% end %>
+        </div>
+    </div>
+
+    <!-- QR Code Generation using Google QR API -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Use production URL instead of current location
+            const productionUrl = 'https://gtcarpets.uk/links';
+            const qrElement = document.getElementById('qrcode');
+
+            if (qrElement) {
+                // Use QR Server API with production URL
+                const qrSize = 150;
+                const qrApiUrl = `https://api.qrserver.com/v1/create-qr-code/?size=${qrSize}x${qrSize}&data=${encodeURIComponent(productionUrl)}`;
+
+                const qrImg = document.createElement('img');
+                qrImg.src = qrApiUrl;
+                qrImg.alt = 'QR Code for GT Carpets Links';
+                qrImg.style.width = '150px';
+                qrImg.style.height = '150px';
+                qrImg.style.border = 'none';
+
+                // Clear loading text and add image
+                qrElement.innerHTML = '';
+                qrElement.appendChild(qrImg);
+
+                // Fallback if image fails to load
+                qrImg.onerror = function() {
+                    qrElement.innerHTML = '<p style="font-size: 12px; color: #666;">Scan: ' + productionUrl + '</p>';
+                };
+            }
+        });
+    </script>
+</body>
+</html>
